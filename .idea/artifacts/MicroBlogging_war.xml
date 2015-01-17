@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="MicroBlogging:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <root id="archive" name="MicroBlogging.war">
+      <element id="artifact" artifact-name="MicroBlogging:war exploded" />
+    </root>
+  </artifact>
+</component>
