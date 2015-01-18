@@ -9,7 +9,6 @@ import javax.annotation.PostConstruct;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.ws.rs.WebApplicationException;
-import javax.ws.rs.core.Response;
 import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -24,8 +23,7 @@ import java.util.logging.Logger;
 @Stateless
 public class TweetSessionBean {
 
-    @Inject
-    UserSessionBean userSessionBean;
+    @Inject FollowingSessionBean followingSessionBean;
 
     DBCollection dbCollection;
 
@@ -43,7 +41,7 @@ public class TweetSessionBean {
         }
 
         if (mongoClient != null) {
-            DB db = mongoClient.getDB("microblogging");
+            DB db = mongoClient.getDB(Preferences.DB_COLLECTION_NAME);
             dbCollection = db.getCollection("tweets");
             if (null == dbCollection) {
                 db.createCollection("tweets", null);
@@ -91,18 +89,28 @@ public class TweetSessionBean {
      * @return
      */
     public boolean createTweet(String handle, String message) throws WebApplicationException {
-        User u = userSessionBean.getUser(handle);
-        if (null != u) {
-            Tweet t = new Tweet();
-            t.setMessage(message);
-            t.setTime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
-            //t.setUserid(u.getUserid());
-            t.setUserHandle(handle);
-            dbCollection.insert(t.toDBObject());
-            return true;
-        } else {
-            throw new WebApplicationException("handle does not exists", Response.Status.NOT_FOUND);
-        }
+        //User verification is not neccessary, because user has to be authenticated before calling this method
+        //if (userSessionBean.getUser(handle) == null) throw new WebApplicationException("handle does not exists", Response.Status.NOT_FOUND);
+        Tweet t = new Tweet();
+        t.setMessage(message);
+        t.setTime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
+        t.setUserHandle(handle);
+        dbCollection.insert(t.toDBObject());
+
+        return true;
     }
+
+
+    public List<Tweet> getReadingList(String handle) {
+        List<Tweet> readingList = new ArrayList<Tweet>();
+        List<User> followings = followingSessionBean.getFollowings(handle);
+        for (User f : followings){
+            readingList.addAll(getUserTweets(f.getHandle()));
+        }
+        return readingList;
+    }
+
+
+
 
 }

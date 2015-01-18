@@ -5,9 +5,7 @@ import com.mongodb.DBObject;
 
 import javax.json.Json;
 import javax.json.JsonObject;
-import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
-import java.util.Map;
 
 /**
  * Created by grk on 07/12/14.
@@ -18,7 +16,6 @@ public class Tweet extends MongoObject{
     private String tweetid;
     private String message;
     private String userHandle;
-    //private User user;
     private String time;
 
 
@@ -36,7 +33,6 @@ public class Tweet extends MongoObject{
         t.setMessage(doc.get("message").toString());
         t.setTime(doc.get("time").toString());
         t.setUserHandle(doc.get("handle").toString());
-
 
         /*
         Map<String, String> userMap = (Map<String, String>)doc.get("user");

@@ -6,7 +6,6 @@ import fr.grk.ecp.utils.Preferences;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.Stateless;
-import javax.inject.Inject;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response;
 import java.net.UnknownHostException;
@@ -39,7 +38,7 @@ public class UserSessionBean {
         }
 
         if (mongoClient != null) {
-            DB db = mongoClient.getDB("microblogging");
+            DB db = mongoClient.getDB(Preferences.DB_COLLECTION_NAME);
             dbCollection = db.getCollection("users");
             if (null == dbCollection) {
                 db.createCollection("users", null);

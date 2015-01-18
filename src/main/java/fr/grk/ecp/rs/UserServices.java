@@ -24,21 +24,19 @@ import java.util.regex.Pattern;
 public class UserServices {
 
 
+    private static final Pattern handlePattern = Pattern.compile("^(:)(\\w+)$");
     @Inject
     UserSessionBean userSessionBean;
-
     @Context
     private UriInfo context;
-
-    private static final Pattern handlePattern = Pattern.compile("^(:)(\\w+)$");
 
     @Path("/")
     @GET
     @Produces("application/json")
-    public JsonObject getAllUsers(){
+    public JsonObject getAllUsers() {
         JsonObjectBuilder builder = Json.createObjectBuilder();
         JsonArrayBuilder arrayBuilder = Json.createArrayBuilder();
-        for (User user : userSessionBean.getUsers()){
+        for (User user : userSessionBean.getUsers()) {
             arrayBuilder.add(user.toJson());
         }
         builder.add("server", Preferences.SERVER_NAME);
@@ -50,30 +48,33 @@ public class UserServices {
     @Path("/{handle}")
     @GET
     @Produces("application/json")
-    public JsonObject getSomeUser(@PathParam("handle") String handle){
+    public JsonObject getSomeUser(@PathParam("handle") String handle) {
         Matcher matcher = handlePattern.matcher(handle);
-        if (matcher.matches()) {
-            JsonObjectBuilder builder = Json.createObjectBuilder();
-            builder.add("server", Preferences.SERVER_NAME);
-            User u = userSessionBean.getUser(matcher.group(2));
-            if (u != null) return u.toJson();
-            else throw new WebApplicationException("handle not found", Response.Status.NOT_FOUND);
-        } else {
-            throw new WebApplicationException("handle not valid", Response.Status.BAD_REQUEST);
-        }
+        if (!matcher.matches()) throw new WebApplicationException("handle not valid", Response.Status.BAD_REQUEST);
+        if (userSessionBean.getUser(matcher.group(2)) == null)
+            throw new WebApplicationException("handle not found", Response.Status.NOT_FOUND);
+        if (userSessionBean.getUser(matcher.group(2)) == null)
+            throw new WebApplicationException("handle not found", Response.Status.NOT_FOUND);
+
+
+        JsonObjectBuilder builder = Json.createObjectBuilder();
+        builder.add("server", Preferences.SERVER_NAME);
+        builder.add("user", builder.build());
+        return builder.build();
+
     }
 
     @Path("/")
     @POST
     @Consumes("application/json")
-    public Response createUser(User u){
-        if (u.getHandle() != null && u.getPassword() != null){
-            userSessionBean.createUser(u);
-            String uri = context.getPath() + "/:" + u.getHandle();
-            return Response.created(URI.create(uri)).build();
-        }else{
-            throw new WebApplicationException("handle and/or password missing", Response.Status.BAD_REQUEST);
-        }
+    public Response createUser(User u) {
+        if (u.getHandle() == null) throw new WebApplicationException("handle is missing", Response.Status.BAD_REQUEST);
+        if (u.getPassword() == null)
+            throw new WebApplicationException("password is missing", Response.Status.BAD_REQUEST);
+        userSessionBean.createUser(u);
+        String uri = context.getPath() + "/:" + u.getHandle();
+        return Response.created(URI.create(uri)).build();
+
     }
 
 

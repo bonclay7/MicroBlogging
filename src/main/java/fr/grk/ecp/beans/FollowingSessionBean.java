@@ -2,17 +2,12 @@ package fr.grk.ecp.beans;
 
 import com.mongodb.*;
 import fr.grk.ecp.models.Following;
-import fr.grk.ecp.models.Tweet;
 import fr.grk.ecp.models.User;
 import fr.grk.ecp.utils.Preferences;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
-import javax.json.Json;
-import javax.json.JsonArrayBuilder;
-import javax.json.JsonObject;
-import javax.json.JsonObjectBuilder;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response;
 import java.net.UnknownHostException;
@@ -29,7 +24,6 @@ import java.util.logging.Logger;
 @Stateless
 public class FollowingSessionBean {
 
-    //TODO: prevent from follow more than once
 
     @Inject
     UserSessionBean userSessionBean;
@@ -49,7 +43,7 @@ public class FollowingSessionBean {
         }
 
         if (mongoClient != null) {
-            DB db = mongoClient.getDB("microblogging");
+            DB db = mongoClient.getDB(Preferences.DB_COLLECTION_NAME);
             dbCollection = db.getCollection("following");
             if (null == dbCollection) {
                 db.createCollection("following", null);
@@ -107,9 +101,7 @@ public class FollowingSessionBean {
     }
 
 
-    public boolean follow(String handle, String followeeHandle){
-        User u = userSessionBean.getUser(followeeHandle);
-        if (u == null) throw new WebApplicationException("handle does not exists", Response.Status.NOT_FOUND);
+    public boolean follow(String handle, String followeeHandle) throws WebApplicationException{
         if (isFollowing(handle, followeeHandle)) throw new WebApplicationException("already following the guy", Response.Status.FORBIDDEN);
 
             Following f = new Following();

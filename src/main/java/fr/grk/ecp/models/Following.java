@@ -3,7 +3,6 @@ package fr.grk.ecp.models;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 
-import javax.json.Json;
 import javax.json.JsonObject;
 
 /**

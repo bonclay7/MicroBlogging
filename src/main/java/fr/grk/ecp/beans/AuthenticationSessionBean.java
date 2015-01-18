@@ -1,7 +1,6 @@
 package fr.grk.ecp.beans;
 
 import com.mongodb.*;
-import fr.grk.ecp.models.Following;
 import fr.grk.ecp.models.Session;
 import fr.grk.ecp.models.User;
 import fr.grk.ecp.utils.Preferences;
@@ -15,9 +14,7 @@ import java.net.UnknownHostException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -45,7 +42,7 @@ public class AuthenticationSessionBean {
         }
 
         if (mongoClient != null) {
-            DB db = mongoClient.getDB(Preferences.COLLECTION_NAME);
+            DB db = mongoClient.getDB(Preferences.DB_COLLECTION_NAME);
             dbCollection = db.getCollection("sessions");
             if (null == dbCollection) {
                 db.createCollection("sessions", null);
