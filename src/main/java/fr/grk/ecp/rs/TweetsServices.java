@@ -1,5 +1,6 @@
 package fr.grk.ecp.rs;
 
+import fr.grk.ecp.beans.AuthenticationSessionBean;
 import fr.grk.ecp.beans.TweetSessionBean;
 import fr.grk.ecp.models.Tweet;
 import fr.grk.ecp.models.User;
@@ -22,12 +23,14 @@ import java.util.regex.Pattern;
 /**
  * Created by grk on 07/12/14.
  */
-@Path("/tweets")
+@Path("/")
 public class TweetsServices {
 
 
     @Inject
     TweetSessionBean tweetSessionBean;
+    @Inject
+    AuthenticationSessionBean authenticationSessionBean;
 
     @Context
     private UriInfo context;
@@ -46,7 +49,7 @@ public class TweetsServices {
         return builder.build();
     }
 
-    @Path("/")
+    @Path("/tweets")
     @GET
     @Produces("application/json")
     public JsonObject getAllTweets(){
@@ -54,7 +57,7 @@ public class TweetsServices {
     }
 
 
-    @Path("/{handle}")
+    @Path("/{handle}/tweets")
     @GET
     @Produces("application/json")
     public JsonObject getUserTweets(@PathParam("handle") String handle){
@@ -66,26 +69,32 @@ public class TweetsServices {
         }
     }
 
-
-    @Path("/{handle}")
+    /**
+     *
+     * @param handle
+     * @param token
+     * @param message
+     * @return
+     */
+    @Path("/{handle}/tweet")
     @POST
     @Consumes("text/plain")
-    public Response createTweet(@PathParam("handle") String handle, String message){
-        System.out.println("HANDLE " +handle+ " | MESSAGE " +message);
-        if (handle != null && handle != null){
+    public Response createTweet(@PathParam("handle") String handle,
+                                @HeaderParam("token") String token,
+                                String message){
 
-            Matcher matcher = handlePattern.matcher(handle);
+        Matcher matcher = handlePattern.matcher(handle);
+        if (!matcher.matches()) throw new WebApplicationException("handle not valid", Response.Status.BAD_REQUEST);
+        if (message == null) throw new WebApplicationException("handle and/or message missing", Response.Status.BAD_REQUEST);
+        if (token == null) throw new WebApplicationException("token missing", Response.Status.FORBIDDEN);
 
-            if (matcher.matches()) {
-                tweetSessionBean.createTweet(matcher.group(2), message);
-                String uri = context.getPath() + "/:" + matcher.group(2);
-                return Response.created(URI.create(uri)).build();
-            }else {
-                throw new WebApplicationException("handle not valid", Response.Status.BAD_REQUEST);
-            }
-        }else{
-            throw new WebApplicationException("handle and/or message missing", Response.Status.BAD_REQUEST);
-        }
+        handle = matcher.group(2);
+        if (!authenticationSessionBean.isAuthenticated(handle, token)) throw new WebApplicationException("authentication failed", Response.Status.FORBIDDEN);
+
+        //proceed
+        tweetSessionBean.createTweet(handle, message);
+        String uri = context.getPath() + "s";
+        return Response.created(URI.create(uri.replace(":", ""))).build();
     }
 
 

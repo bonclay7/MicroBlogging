@@ -29,6 +29,8 @@ import java.util.logging.Logger;
 @Stateless
 public class FollowingSessionBean {
 
+    //TODO: prevent from follow more than once
+
     @Inject
     UserSessionBean userSessionBean;
 
@@ -53,20 +55,6 @@ public class FollowingSessionBean {
                 db.createCollection("following", null);
             }
         }
-    }
-
-
-
-
-    private JsonObject prepareJson(List<Tweet> list){
-        JsonObjectBuilder builder = Json.createObjectBuilder();
-        builder.add("server", Preferences.SERVER_NAME);
-        JsonArrayBuilder arrayBuilder = Json.createArrayBuilder();
-        for (Tweet tweet : list){
-            arrayBuilder.add(tweet.toJson());
-        }
-        builder.add("tweets", arrayBuilder.build());
-        return builder.build();
     }
 
 
@@ -107,23 +95,35 @@ public class FollowingSessionBean {
     }
 
 
+    private boolean isFollowing(String handle, String followeeHandle){
+        BasicDBObject query = new BasicDBObject("followee", followeeHandle)
+                .append("follower", handle);
+        DBCursor cur = dbCollection.find(query);
+
+        if (null != cur && cur.hasNext()) {
+            return true;
+        }
+        return false;
+    }
+
+
     public boolean follow(String handle, String followeeHandle){
         User u = userSessionBean.getUser(followeeHandle);
-        if (null != u) {
+        if (u == null) throw new WebApplicationException("handle does not exists", Response.Status.NOT_FOUND);
+        if (isFollowing(handle, followeeHandle)) throw new WebApplicationException("already following the guy", Response.Status.FORBIDDEN);
+
             Following f = new Following();
             f.setFollowerHandle(handle);
             f.setFolloweeHandle(followeeHandle);
             f.setTime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
             dbCollection.insert(f.toDBObject());
             return true;
-        }else {
-            throw new WebApplicationException("handle does not exists", Response.Status.NOT_FOUND);
-        }
     }
 
     public boolean unfollow(String handle, String followingHandle){
+        //TODO : Keep history by handling status
         BasicDBObject query = new BasicDBObject("followee", followingHandle);
-        query.put("follower", handle);
+        query.append("follower", handle);
         DBCursor cur = dbCollection.find(query);
         if (null != cur && cur.hasNext()) {
             dbCollection.remove(cur.next());

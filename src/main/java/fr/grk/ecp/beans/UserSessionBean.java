@@ -6,9 +6,12 @@ import fr.grk.ecp.utils.Preferences;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.Stateless;
+import javax.inject.Inject;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response;
 import java.net.UnknownHostException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -27,16 +30,16 @@ public class UserSessionBean {
      * Create connection to mongoDb and select the users collection on EJB creation
      */
     @PostConstruct
-    public void init(){
+    public void init() {
         MongoClient mongoClient = null;
         try {
             mongoClient = new MongoClient(Preferences.MONGO_DB_ADDR);
-        } catch (UnknownHostException e){
+        } catch (UnknownHostException e) {
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "Connection to database failed", e);
         }
 
-        if (mongoClient != null){
-                DB db = mongoClient.getDB("microblogging");
+        if (mongoClient != null) {
+            DB db = mongoClient.getDB("microblogging");
             dbCollection = db.getCollection("users");
             if (null == dbCollection) {
                 db.createCollection("users", null);
@@ -47,22 +50,45 @@ public class UserSessionBean {
 
     /**
      * Create an user
+     *
      * @param u User to be created
      * @return true if creation success, otherwise, false
      * @throws WebApplicationException
      */
     public boolean createUser(User u) throws WebApplicationException {
-        if (getUser(u.getHandle()) == null){
-            dbCollection.insert(u.toDBObject());
-            return true;
-        }else{
+        if (getUser(u.getHandle()) != null)
             throw new WebApplicationException("User already exists", Response.Status.NOT_ACCEPTABLE);
+        if (u.getPassword() == null) throw new WebApplicationException("Password missing", Response.Status.BAD_REQUEST);
+
+        u.setPassword(hash(u.getPassword()));
+        dbCollection.insert(u.toDBObject());
+        return true;
+
+    }
+
+    private String hash(String string){
+        try {
+            MessageDigest md = MessageDigest.getInstance("SHA-256");
+            md.update(string.getBytes());
+
+            byte byteData[] = md.digest();
+
+            //convert the byte to hex format method 1
+            StringBuffer sb = new StringBuffer();
+            for (int i = 0; i < byteData.length; i++) {
+                sb.append(Integer.toString((byteData[i] & 0xff) + 0x100, 16).substring(1));
+            }
+            return sb.toString();
+        } catch (NoSuchAlgorithmException ex) {
+            return string;
         }
+
     }
 
 
     /**
      * Search on the db for a user using his handle
+     *
      * @param handle
      * @return The User
      */
@@ -78,6 +104,7 @@ public class UserSessionBean {
 
     /**
      * Return the user list in a wrapper object
+     *
      * @return
      */
     public List<User> getUsers() {

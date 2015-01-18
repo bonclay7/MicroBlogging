@@ -1,5 +1,6 @@
 package fr.grk.ecp.rs;
 
+import fr.grk.ecp.beans.AuthenticationSessionBean;
 import fr.grk.ecp.beans.FollowingSessionBean;
 import fr.grk.ecp.models.User;
 import fr.grk.ecp.utils.Preferences;
@@ -25,6 +26,9 @@ public class FollowingServices {
 
     @Inject
     FollowingSessionBean followingSessionBean;
+
+    @Inject
+    AuthenticationSessionBean authenticationSessionBean;
 
 
     @Context
@@ -79,39 +83,45 @@ public class FollowingServices {
     @Path("/{handle}/followings")
     @POST
     @Consumes("text/plain")
-    public Response follow(@PathParam("handle") String handle, String message){
-        //TODO: Extract handle from message as json
-        if (handle != null && handle != null){
-            Matcher matcher = handlePattern.matcher(handle);
-            if (matcher.matches()) {
-                followingSessionBean.follow(matcher.group(2), message);
-                String uri = context.getPath() + "/:" + matcher.group(2) + "/followings";
-                return Response.created(URI.create(uri)).build();
-            }else {
-                throw new WebApplicationException("handle not valid", Response.Status.BAD_REQUEST);
-            }
-        }else{
-            throw new WebApplicationException("handle and/or message missing", Response.Status.BAD_REQUEST);
-        }
+    public Response follow(@PathParam("handle") String handle,
+                           @HeaderParam("token") String token,
+                           String followeeHandle){
+
+        Matcher matcher = handlePattern.matcher(handle);
+        if (!matcher.matches()) throw new WebApplicationException("handle not valid", Response.Status.BAD_REQUEST);
+        if (followeeHandle == null) throw new WebApplicationException("followeeHandle missing", Response.Status.BAD_REQUEST);
+        if (token == null) throw new WebApplicationException("token missing", Response.Status.FORBIDDEN);
+
+        handle = matcher.group(2);
+
+        if (!authenticationSessionBean.isAuthenticated(handle, token)) throw new WebApplicationException("Requires authentication", Response.Status.FORBIDDEN);
+
+        followingSessionBean.follow(handle, followeeHandle);
+        //String uri = context.getPath() + "/:" + matcher.group(2) + "/followings";
+        return Response.accepted().build();
     }
 
 
     @Path("/{handle}/followings")
-    @POST
+    @DELETE
     @Consumes("text/plain")
-    public Response unfollow(@PathParam("handle") String handle, String message){
-        //TODO: Extract handle from message as json
-        if (handle != null && handle != null){
-            Matcher matcher = handlePattern.matcher(handle);
-            if (matcher.matches()) {
-                followingSessionBean.unfollow(matcher.group(2), message);
-                return Response.accepted().build();
-            }else {
-                throw new WebApplicationException("handle not valid", Response.Status.BAD_REQUEST);
-            }
-        }else{
-            throw new WebApplicationException("handle and/or message missing", Response.Status.BAD_REQUEST);
-        }
+    public Response unfollow(@PathParam("handle") String handle,
+                             @HeaderParam("token") String token,
+                             String followeeHandle){
+
+        Matcher matcher = handlePattern.matcher(handle);
+        if (!matcher.matches()) throw new WebApplicationException("handle not valid", Response.Status.BAD_REQUEST);
+        if (followeeHandle == null) throw new WebApplicationException("followeeHandle missing", Response.Status.BAD_REQUEST);
+        if (token == null) throw new WebApplicationException("token missing", Response.Status.FORBIDDEN);
+
+        handle = matcher.group(2);
+        if (!authenticationSessionBean.isAuthenticated(handle, token)) throw new WebApplicationException("Requires authentication", Response.Status.FORBIDDEN);
+
+        followingSessionBean.unfollow(handle, followeeHandle);
+        return Response.noContent().build();
+
+
+
     }
 
 

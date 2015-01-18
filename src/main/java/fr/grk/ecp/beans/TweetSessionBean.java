@@ -60,6 +60,7 @@ public class TweetSessionBean {
         List<Tweet> tweets = new ArrayList<Tweet>();
         DBCursor cur = dbCollection.find();
         for (DBObject dbo : cur.toArray()) {
+            System.out.println(dbo.toString());
             tweets.add(new Tweet().fromDBObject(dbo));
         }
         return tweets;

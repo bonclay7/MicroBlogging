@@ -1,27 +1,94 @@
 package fr.grk.ecp.models;
 
 import com.mongodb.BasicDBObject;
+import com.mongodb.DBObject;
 
+import javax.json.Json;
 import javax.json.JsonObject;
 
 /**
  * Created by grk on 16/01/15.
  */
 public class Session extends MongoObject{
+
+    private String id;
     private String token;
     private String handle;
     private String creationDate;
+    private int status;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    public String getHandle() {
+        return handle;
+    }
+
+    public void setHandle(String handle) {
+        this.handle = handle;
+    }
+
+    public String getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(String creationDate) {
+        this.creationDate = creationDate;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
 
     @Override
     public BasicDBObject toDBObject() {
-        return null;
+        BasicDBObject doc = new BasicDBObject();
+        doc.put("handle", handle);
+        doc.put("token", token);
+        doc.put("date", creationDate);
+        doc.put("status", status);
+        return doc;
     }
 
     @Override
     public JsonObject toJson() {
-        return null;
+        return Json.createObjectBuilder()
+                .add("handle", getHandle())
+                .add("token", getToken())
+                .add("creationDate", getCreationDate())
+                .add("status", getStatus()).build();
     }
-    //TODO : Design Model
-    //TODO : Create session's ejb
-    //TODO : Authentication JAX-RS Services Class
+
+
+    public static Session fromDBObject(DBObject doc) {
+        Session s = new Session();
+        s.setId(doc.get("_id") == null ? null : doc.get("_id").toString());
+        s.setToken(doc.get("token") == null ? null : doc.get("token").toString());
+        try{
+            s.setStatus(Integer.parseInt(doc.get("status") == null ? null : doc.get("status").toString()));
+        }catch (Exception e){
+
+        }
+        s.setHandle(doc.get("handle") == null ? null : doc.get("handle").toString());
+        s.setCreationDate(doc.get("date") == null ? null : doc.get("date").toString());
+        return s;
+    }
+
 }
