@@ -63,7 +63,7 @@ public class FollowingSessionBean {
 
         List<User> res = new ArrayList<User>();
 
-        if (null != cur && cur.hasNext()) {
+        while (null != cur && cur.hasNext()) {
             Following f = Following.fromDBObject(cur.next());
             res.add(userSessionBean.getUser(f.getFolloweeHandle()));
         }
@@ -81,7 +81,7 @@ public class FollowingSessionBean {
 
         List<User> res = new ArrayList<User>();
 
-        if (null != cur && cur.hasNext()) {
+        while (null != cur && cur.hasNext()) {
             Following f = Following.fromDBObject(cur.next());
             res.add(userSessionBean.getUser(f.getFollowerHandle()));
         }

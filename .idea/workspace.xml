@@ -2,19 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="55d3a725-726a-4cc8-8cbe-71b3515d159e" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/MicroBlogging/WEB-INF/classes/fr/grk/ecp/beans/AuthenticationSessionBean.class" afterPath="$PROJECT_DIR$/target/MicroBlogging/WEB-INF/classes/fr/grk/ecp/beans/AuthenticationSessionBean.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/fr/grk/ecp/beans/AuthenticationSessionBean.class" afterPath="$PROJECT_DIR$/target/classes/fr/grk/ecp/beans/AuthenticationSessionBean.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/MicroBlogging/WEB-INF/classes/fr/grk/ecp/beans/FollowingSessionBean.class" afterPath="$PROJECT_DIR$/target/MicroBlogging/WEB-INF/classes/fr/grk/ecp/beans/FollowingSessionBean.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/fr/grk/ecp/beans/FollowingSessionBean.class" afterPath="$PROJECT_DIR$/target/classes/fr/grk/ecp/beans/FollowingSessionBean.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/MicroBlogging.war" afterPath="$PROJECT_DIR$/target/MicroBlogging.war" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/fr/grk/ecp/utils/Preferences.class" afterPath="$PROJECT_DIR$/target/classes/fr/grk/ecp/utils/Preferences.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/MicroBlogging/WEB-INF/classes/fr/grk/ecp/beans/TweetSessionBean.class" afterPath="$PROJECT_DIR$/target/MicroBlogging/WEB-INF/classes/fr/grk/ecp/beans/TweetSessionBean.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/fr/grk/ecp/beans/TweetSessionBean.class" afterPath="$PROJECT_DIR$/target/classes/fr/grk/ecp/beans/TweetSessionBean.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/MicroBlogging/WEB-INF/classes/fr/grk/ecp/beans/UserSessionBean.class" afterPath="$PROJECT_DIR$/target/MicroBlogging/WEB-INF/classes/fr/grk/ecp/beans/UserSessionBean.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/fr/grk/ecp/beans/UserSessionBean.class" afterPath="$PROJECT_DIR$/target/classes/fr/grk/ecp/beans/UserSessionBean.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/fr/grk/ecp/utils/Preferences.java" afterPath="$PROJECT_DIR$/src/main/java/fr/grk/ecp/utils/Preferences.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/fr/grk/ecp/beans/TweetSessionBean.java" afterPath="$PROJECT_DIR$/src/main/java/fr/grk/ecp/beans/TweetSessionBean.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/fr/grk/ecp/beans/FollowingSessionBean.java" afterPath="$PROJECT_DIR$/src/main/java/fr/grk/ecp/beans/FollowingSessionBean.java" />
     </list>
     <ignored path="MicroBlogging.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -83,11 +71,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="FollowingSessionBean.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="FollowingSessionBean.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/fr/grk/ecp/beans/FollowingSessionBean.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="458" max-vertical-offset="2145">
-              <caret line="46" column="57" selection-start-line="46" selection-start-column="57" selection-end-line="46" selection-end-column="57" />
+            <state vertical-scroll-proportion="-0.63922155" vertical-offset="1477" max-vertical-offset="2145">
+              <caret line="70" column="5" selection-start-line="70" selection-start-column="5" selection-end-line="70" selection-end-column="5" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -121,11 +109,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="TweetSessionBean.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="TweetSessionBean.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/fr/grk/ecp/beans/TweetSessionBean.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.6706587" vertical-offset="1067" max-vertical-offset="1800">
-              <caret line="120" column="100" selection-start-line="120" selection-start-column="100" selection-end-line="120" selection-end-column="100" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="1067" max-vertical-offset="1800">
+              <caret line="105" column="25" selection-start-line="105" selection-start-column="25" selection-end-line="105" selection-end-column="25" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="method#getTweets#0;class#TweetSessionBean#0" expanded="false" />
@@ -133,6 +121,16 @@
                 <element signature="e#3400#3931#0" expanded="true" />
                 <element signature="e#3930#3931#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="FollowingServices.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/fr/grk/ecp/rs/FollowingServices.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="225" max-vertical-offset="1785">
+              <caret line="45" column="53" selection-start-line="45" selection-start-column="53" selection-end-line="45" selection-end-column="53" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -179,12 +177,12 @@
         <option value="$PROJECT_DIR$/src/main/java/fr/grk/ecp/rs/TweetsServices.java" />
         <option value="$PROJECT_DIR$/src/main/java/fr/grk/ecp/rs/UserServices.java" />
         <option value="$PROJECT_DIR$/src/main/java/fr/grk/ecp/rs/Application.java" />
-        <option value="$PROJECT_DIR$/src/main/java/fr/grk/ecp/beans/FollowingSessionBean.java" />
         <option value="$PROJECT_DIR$/src/main/java/fr/grk/ecp/beans/AuthenticationSessionBean.java" />
         <option value="$PROJECT_DIR$/src/main/java/fr/grk/ecp/beans/UserSessionBean.java" />
         <option value="$PROJECT_DIR$/src/main/java/fr/grk/ecp/models/Following.java" />
         <option value="$PROJECT_DIR$/src/main/java/fr/grk/ecp/utils/Preferences.java" />
         <option value="$PROJECT_DIR$/src/main/java/fr/grk/ecp/beans/TweetSessionBean.java" />
+        <option value="$PROJECT_DIR$/src/main/java/fr/grk/ecp/beans/FollowingSessionBean.java" />
       </list>
     </option>
   </component>
@@ -815,7 +813,7 @@
       <workItem from="1421499867825" duration="22830000" />
       <workItem from="1421611784681" duration="8148000" />
       <workItem from="1421662005018" duration="160000" />
-      <workItem from="1421663066969" duration="1751000" />
+      <workItem from="1421663066969" duration="2273000" />
     </task>
     <task id="LOCAL-00001" summary="Test">
       <created>1421502794699</created>
@@ -827,7 +825,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="84514000" />
+    <option name="totallyTimeSpent" value="85036000" />
   </component>
   <component name="TodoView" selected-index="0">
     <todo-panel id="selected-file">
@@ -1230,27 +1228,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/fr/grk/ecp/rs/FollowingServices.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="945">
-          <caret line="82" column="0" selection-start-line="82" selection-start-column="0" selection-end-line="82" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/fr/grk/ecp/rs/UserServices.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.895749" vertical-offset="0" max-vertical-offset="1080">
           <caret line="74" column="62" selection-start-line="74" selection-start-column="62" selection-end-line="74" selection-end-column="62" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/fr/grk/ecp/beans/FollowingSessionBean.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="458" max-vertical-offset="2145">
-          <caret line="46" column="57" selection-start-line="46" selection-start-column="57" selection-end-line="46" selection-end-column="57" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1323,14 +1304,32 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/fr/grk/ecp/beans/TweetSessionBean.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.6706587" vertical-offset="1067" max-vertical-offset="1800">
-          <caret line="120" column="100" selection-start-line="120" selection-start-column="100" selection-end-line="120" selection-end-column="100" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="1067" max-vertical-offset="1800">
+          <caret line="105" column="25" selection-start-line="105" selection-start-column="25" selection-end-line="105" selection-end-column="25" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="method#getTweets#0;class#TweetSessionBean#0" expanded="false" />
             <element signature="method#getUserTweets#0;class#TweetSessionBean#0" expanded="false" />
             <element signature="e#3400#3931#0" expanded="true" />
             <element signature="e#3930#3931#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/fr/grk/ecp/rs/FollowingServices.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="225" max-vertical-offset="1785">
+          <caret line="45" column="53" selection-start-line="45" selection-start-column="53" selection-end-line="45" selection-end-column="53" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/fr/grk/ecp/beans/FollowingSessionBean.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-0.63922155" vertical-offset="1477" max-vertical-offset="2145">
+          <caret line="70" column="5" selection-start-line="70" selection-start-column="5" selection-end-line="70" selection-end-column="5" />
+          <folding>
+            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
