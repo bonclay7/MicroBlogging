@@ -10,10 +10,9 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.ws.rs.WebApplicationException;
 import java.net.UnknownHostException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -103,14 +102,32 @@ public class TweetSessionBean {
 
     public List<Tweet> getReadingList(String handle) {
         List<Tweet> readingList = new ArrayList<Tweet>();
+
+        //user own tweets
+        readingList.addAll(getUserTweets(handle));
+
+        //other tweets
         List<User> followings = followingSessionBean.getFollowings(handle);
         for (User f : followings){
             readingList.addAll(getUserTweets(f.getHandle()));
         }
+
+        //ordering list
+        Collections.sort(readingList, new Comparator<Tweet>() {
+            @Override
+            public int compare(Tweet o1, Tweet o2) {
+                try {
+                    Date dateO1 = new SimpleDateFormat(Preferences.DATE_FORMAT).parse(o1.getTime());
+                    Date dateO2 = new SimpleDateFormat(Preferences.DATE_FORMAT).parse(o2.getTime());
+                    return dateO2.compareTo(dateO1);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                return 0;
+            }
+        });
+
+
         return readingList;
     }
-
-
-
-
 }
