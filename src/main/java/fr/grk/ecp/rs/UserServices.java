@@ -51,15 +51,17 @@ public class UserServices {
     public JsonObject getSomeUser(@PathParam("handle") String handle) {
         Matcher matcher = handlePattern.matcher(handle);
         if (!matcher.matches()) throw new WebApplicationException("handle not valid", Response.Status.BAD_REQUEST);
-        if (userSessionBean.getUser(matcher.group(2)) == null)
+
+        User u = userSessionBean.getUser(matcher.group(2));
+        if (u == null)
             throw new WebApplicationException("handle not found", Response.Status.NOT_FOUND);
-        if (userSessionBean.getUser(matcher.group(2)) == null)
-            throw new WebApplicationException("handle not found", Response.Status.NOT_FOUND);
+
+
 
 
         JsonObjectBuilder builder = Json.createObjectBuilder();
         builder.add("server", Preferences.SERVER_NAME);
-        builder.add("user", builder.build());
+        builder.add("user", u.toJson());
         return builder.build();
 
     }

@@ -22,7 +22,7 @@ import java.util.logging.Logger;
 @Stateless
 public class UserSessionBean {
 
-    DBCollection dbCollection;
+    private DBCollection dbCollection;
     //User user;
 
     /**
@@ -54,14 +54,13 @@ public class UserSessionBean {
      * @return true if creation success, otherwise, false
      * @throws WebApplicationException
      */
-    public boolean createUser(User u) throws WebApplicationException {
+    public void createUser(User u) throws WebApplicationException {
         if (getUser(u.getHandle()) != null)
             throw new WebApplicationException("User already exists", Response.Status.NOT_ACCEPTABLE);
         if (u.getPassword() == null) throw new WebApplicationException("Password missing", Response.Status.BAD_REQUEST);
 
         u.setPassword(hash(u.getPassword()));
         dbCollection.insert(u.toDBObject());
-        return true;
 
     }
 
@@ -73,7 +72,7 @@ public class UserSessionBean {
             byte byteData[] = md.digest();
 
             //convert the byte to hex format method 1
-            StringBuffer sb = new StringBuffer();
+            StringBuilder sb = new StringBuilder();
             for (int i = 0; i < byteData.length; i++) {
                 sb.append(Integer.toString((byteData[i] & 0xff) + 0x100, 16).substring(1));
             }

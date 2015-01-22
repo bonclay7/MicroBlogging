@@ -24,7 +24,7 @@ public class TweetSessionBean {
 
     @Inject FollowingSessionBean followingSessionBean;
 
-    DBCollection dbCollection;
+    private DBCollection dbCollection;
 
 
     /**
@@ -58,7 +58,7 @@ public class TweetSessionBean {
         DBCursor cur = dbCollection.find();
         for (DBObject dbo : cur.toArray()) {
             System.out.println(dbo.toString());
-            tweets.add(new Tweet().fromDBObject(dbo));
+            tweets.add(Tweet.fromDBObject(dbo));
         }
         return tweets;
     }
@@ -76,7 +76,7 @@ public class TweetSessionBean {
         DBCursor cur = dbCollection.find(query);
 
         for (DBObject dbo : cur.toArray()) {
-            tweets.add(new Tweet().fromDBObject(dbo));
+            tweets.add(Tweet.fromDBObject(dbo));
         }
 
         return tweets;
@@ -87,7 +87,7 @@ public class TweetSessionBean {
      * @param message
      * @return
      */
-    public boolean createTweet(String handle, String message) throws WebApplicationException {
+    public void createTweet(String handle, String message) throws WebApplicationException {
         //User verification is not neccessary, because user has to be authenticated before calling this method
         //if (userSessionBean.getUser(handle) == null) throw new WebApplicationException("handle does not exists", Response.Status.NOT_FOUND);
         Tweet t = new Tweet();
@@ -95,8 +95,6 @@ public class TweetSessionBean {
         t.setTime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
         t.setUserHandle(handle);
         dbCollection.insert(t.toDBObject());
-
-        return true;
     }
 
 

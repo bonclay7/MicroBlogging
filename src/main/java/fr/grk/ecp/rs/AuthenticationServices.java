@@ -28,20 +28,21 @@ public class AuthenticationServices {
     @POST
     @Produces("application/json")
     public JsonObject authenticate(@PathParam("handle") String handle,
-                                   @HeaderParam("password") String password) {
+                                   @HeaderParam("password") String password, @HeaderParam("hostID") String hostID) {
 
         Matcher matcher = handlePattern.matcher(handle);
         if (!matcher.matches()) throw new WebApplicationException("handle not valid", Response.Status.BAD_REQUEST);
         if (password == null) throw new WebApplicationException("password not valid", Response.Status.BAD_REQUEST);
+        if (hostID == null) throw new WebApplicationException("host not valid", Response.Status.BAD_REQUEST);
 
-        Session s = authenticationSessionBean.authenticate(matcher.group(2), password);
+        Session s = authenticationSessionBean.authenticate(matcher.group(2), password, hostID);
         JsonObjectBuilder builder = Json.createObjectBuilder();
         JsonArrayBuilder arrayBuilder = Json.createArrayBuilder();
         arrayBuilder.add(s.toJson());
 
 
         builder.add("server", Preferences.SERVER_NAME);
-        builder.add("session", arrayBuilder.build());
+        builder.add("session", s.toJson());
 
         return builder.build();
     }
@@ -49,12 +50,12 @@ public class AuthenticationServices {
 
     @Path("/{handle}/disconnect")
     @POST
-    public Response disconnect(@PathParam("handle") String handle, @HeaderParam("token") String token) {
+    public Response disconnect(@PathParam("handle") String handle, @HeaderParam("token") String token, @HeaderParam("hostID") String hostID) {
 
         Matcher matcher = handlePattern.matcher(handle);
         if (!matcher.matches()) throw new WebApplicationException("handle not valid", Response.Status.BAD_REQUEST);
 
-        authenticationSessionBean.disconnect(matcher.group(2), token);
+        authenticationSessionBean.disconnect(matcher.group(2), token, hostID);
         return Response.noContent().build();
     }
 

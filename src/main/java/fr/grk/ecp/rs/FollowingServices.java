@@ -80,11 +80,11 @@ public class FollowingServices {
     @Path("/{handle}/followings")
     @POST
     @Consumes("text/plain")
-    public Response follow(@PathParam("handle") String handle, @HeaderParam("token") String token, String followeeHandle) {
+    public Response follow(@PathParam("handle") String handle, @HeaderParam("token") String token, @HeaderParam("hostID") String hostID, String followeeHandle) {
 
         if (followeeHandle == null)
             throw new WebApplicationException("followeeHandle missing", Response.Status.BAD_REQUEST);
-        handle = authorize(handle, token);
+        handle = authorize(handle, token, hostID);
 
         followingSessionBean.follow(handle, followeeHandle);
         return Response.accepted().build();
@@ -94,11 +94,11 @@ public class FollowingServices {
     @Path("/{handle}/followings")
     @DELETE
     @Consumes("text/plain")
-    public Response unfollow(@PathParam("handle") String handle, @HeaderParam("token") String token, String followeeHandle) {
+    public Response unfollow(@PathParam("handle") String handle, @HeaderParam("token") String token, @HeaderParam("hostID") String hostID, String followeeHandle) {
 
         if (followeeHandle == null)
             throw new WebApplicationException("followeeHandle missing", Response.Status.BAD_REQUEST);
-        handle = authorize(handle, token);
+        handle = authorize(handle, token, hostID);
         followingSessionBean.unfollow(handle, followeeHandle);
         return Response.noContent().build();
     }
@@ -112,14 +112,15 @@ public class FollowingServices {
      * @return well parsed handle
      * @throws WebApplicationException
      */
-    private String authorize(String handle, String token) throws WebApplicationException {
+    private String authorize(String handle, String token, String hostID) throws WebApplicationException {
         Matcher matcher = handlePattern.matcher(handle);
         if (!matcher.matches()) throw new WebApplicationException("handle not valid", Response.Status.BAD_REQUEST);
         if (token == null) throw new WebApplicationException("token missing", Response.Status.FORBIDDEN);
+        if (hostID == null) throw new WebApplicationException("host missing", Response.Status.FORBIDDEN);
 
         handle = matcher.group(2);
         //user authentication
-        if (!authenticationSessionBean.isAuthenticated(handle, token))
+        if (!authenticationSessionBean.isAuthenticated(handle, token, hostID))
             throw new WebApplicationException("authentication failed", Response.Status.FORBIDDEN);
         return handle;
     }

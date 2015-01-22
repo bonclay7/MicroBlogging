@@ -71,10 +71,10 @@ public class TweetsServices {
     @Path("/{handle}/tweet")
     @POST
     @Consumes("text/plain")
-    public Response createTweet(@PathParam("handle") String handle, @HeaderParam("token") String token, String message) {
+    public Response createTweet(@PathParam("handle") String handle, @HeaderParam("token") String token, @HeaderParam("hostID") String hostID, String message) {
         if (message == null)
             throw new WebApplicationException("handle and/or message missing", Response.Status.BAD_REQUEST);
-        handle = authorize(handle, token);
+        handle = authorize(handle, token, hostID);
 
         //proceed
         tweetSessionBean.createTweet(handle, message);
@@ -86,20 +86,20 @@ public class TweetsServices {
     @Path("/{handle}/reading_list")
     @GET
     @Produces("application/json")
-    public JsonObject getReadingList(@PathParam("handle") String handle, @HeaderParam("token") String token) {
-        handle = authorize(handle, token);
+    public JsonObject getReadingList(@PathParam("handle") String handle, @HeaderParam("token") String token, @HeaderParam("hostID") String hostID) {
+        handle = authorize(handle, token, hostID);
         return prepareJson(tweetSessionBean.getReadingList(handle));
     }
 
 
-    private String authorize(String handle, String token) throws WebApplicationException {
+    private String authorize(String handle, String token, String hostID) throws WebApplicationException {
         Matcher matcher = handlePattern.matcher(handle);
         if (!matcher.matches()) throw new WebApplicationException("handle not valid", Response.Status.BAD_REQUEST);
         if (token == null) throw new WebApplicationException("token missing", Response.Status.FORBIDDEN);
 
         handle = matcher.group(2);
         //user authentication
-        if (!authenticationSessionBean.isAuthenticated(handle, token))
+        if (!authenticationSessionBean.isAuthenticated(handle, token, hostID))
             throw new WebApplicationException("authentication failed", Response.Status.FORBIDDEN);
         return handle;
     }

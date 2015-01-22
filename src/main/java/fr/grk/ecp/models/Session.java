@@ -14,8 +14,18 @@ public class Session extends MongoObject{
     private String id;
     private String token;
     private String handle;
+    private String hostID;
     private String creationDate;
     private int status;
+
+
+    public String getHostID() {
+        return hostID;
+    }
+
+    public void setHostID(String hostID) {
+        this.hostID = hostID;
+    }
 
     public String getId() {
         return id;
@@ -64,6 +74,7 @@ public class Session extends MongoObject{
         doc.put("token", token);
         doc.put("date", creationDate);
         doc.put("status", status);
+        doc.put("host_id", hostID);
         return doc;
     }
 
@@ -73,6 +84,7 @@ public class Session extends MongoObject{
                 .add("handle", getHandle())
                 .add("token", getToken())
                 .add("creationDate", getCreationDate())
+                .add("host", getHostID())
                 .add("status", getStatus()).build();
     }
 
@@ -84,10 +96,11 @@ public class Session extends MongoObject{
         try{
             s.setStatus(Integer.parseInt(doc.get("status") == null ? null : doc.get("status").toString()));
         }catch (Exception e){
-
+            s.setStatus(0);
         }
         s.setHandle(doc.get("handle") == null ? null : doc.get("handle").toString());
         s.setCreationDate(doc.get("date") == null ? null : doc.get("date").toString());
+        s.setHostID(doc.get("host_id") == null ? null : doc.get("host_id").toString());
         return s;
     }
 

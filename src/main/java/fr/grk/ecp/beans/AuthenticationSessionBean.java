@@ -27,7 +27,7 @@ public class AuthenticationSessionBean {
     @Inject
     UserSessionBean userSessionBean;
 
-    DBCollection dbCollection;
+    private DBCollection dbCollection;
 
     /**
      * Create connection to mongoDb and select the users collection on EJB creation
@@ -53,20 +53,26 @@ public class AuthenticationSessionBean {
 
 
 
-    public Session authenticate(String handle, String password) throws WebApplicationException{
+    public Session authenticate(String handle, String password, String hostID) throws WebApplicationException{
         User u = userSessionBean.getUser(handle);
 
         //Authorizing user
         if (u == null) throw new WebApplicationException("handle does not exists", Response.Status.NOT_FOUND);
         if (password ==null) throw new WebApplicationException("Password is empty", Response.Status.BAD_REQUEST);
         if (!u.getPassword().equalsIgnoreCase(hash(password))) throw new WebApplicationException("Wrong password", Response.Status.FORBIDDEN);
+        if (hostID == null) throw new WebApplicationException("host missing", Response.Status.FORBIDDEN);
+
+
+        Session s = getActiveSession(handle, null, hostID);
+        if (s != null) return s;
 
         //Session creation
-        Session s = new Session();
+        s = new Session();
         s.setCreationDate(new SimpleDateFormat(Preferences.DATE_FORMAT).format(new Date()));
         s.setHandle(handle);
         s.setStatus(Preferences.SESSION_ACTIVE);
         s.setToken(hash(System.currentTimeMillis()+""));
+        s.setHostID(hostID);
 
         //Persist in DB
         dbCollection.insert(s.toDBObject());
@@ -77,25 +83,24 @@ public class AuthenticationSessionBean {
 
 
 
-    public boolean isAuthenticated(String handle, String token) throws WebApplicationException{
+    public boolean isAuthenticated(String handle, String token, String hostID) throws WebApplicationException{
         if (handle == null) throw new WebApplicationException("handle missing", Response.Status.NOT_FOUND);
         if (token == null) throw new WebApplicationException("token missing", Response.Status.NOT_FOUND);
+        if (hostID == null) throw new WebApplicationException("host missing", Response.Status.NOT_FOUND);
         //Session s = getActiveSession(handle);
-        if (getActiveSession(handle, token) == null) return false;
-        return true;
+        return getActiveSession(handle, token, hostID) != null;
     }
 
 
-    public boolean disconnect(String handle, String token) throws WebApplicationException{
+    public void disconnect(String handle, String token, String hostID) throws WebApplicationException{
         if (handle == null) throw new WebApplicationException("handle does not exists", Response.Status.NOT_FOUND);
-        if (getActiveSession(handle, token) == null) throw new WebApplicationException(handle + " not connected", Response.Status.BAD_REQUEST);
+        if (getActiveSession(handle, token, hostID) == null) throw new WebApplicationException(handle + " not connected", Response.Status.BAD_REQUEST);
 
         BasicDBObject searchQuery = new BasicDBObject("handle", handle).append("token",token);
 
         BasicDBObject newDocument = new BasicDBObject();
         newDocument.append("$set", new BasicDBObject().append("status", Preferences.SESSION_INACTIVE).append("stopped", new SimpleDateFormat(Preferences.DATE_FORMAT).format(new Date())));
         dbCollection.update(searchQuery, newDocument);
-        return true;
     }
 
     // ----
@@ -108,9 +113,9 @@ public class AuthenticationSessionBean {
             byte byteData[] = md.digest();
 
             //convert the byte to hex format method 1
-            StringBuffer sb = new StringBuffer();
-            for (int i = 0; i < byteData.length; i++) {
-                sb.append(Integer.toString((byteData[i] & 0xff) + 0x100, 16).substring(1));
+            StringBuilder sb = new StringBuilder();
+            for (byte aByteData : byteData) {
+                sb.append(Integer.toString((aByteData & 0xff) + 0x100, 16).substring(1));
             }
             return sb.toString();
         } catch (NoSuchAlgorithmException ex) {
@@ -120,16 +125,17 @@ public class AuthenticationSessionBean {
     }
 
 
-    private Session getActiveSession(String handle, String token) {
+    private Session getActiveSession(String handle, String token, String host) {
         BasicDBObject query = new BasicDBObject("handle", handle);
-        query.append("token", token);
+        if (token != null)
+            query.append("token", token);
+        query.append("host_id", host);
         query.append("status", Preferences.SESSION_ACTIVE);
 
         DBCursor cur = dbCollection.find(query);
 
         if (null != cur && cur.hasNext()) {
-            Session s = Session.fromDBObject(cur.next());
-            return s;
+            return Session.fromDBObject(cur.next());
         }
         return null;
     }

@@ -7,7 +7,7 @@ public class Preferences {
 
     //private static Preferences instance = null;
 
-    public static String MONGO_DB_ADDR = "172.31.9.100";
+    public static final String MONGO_DB_ADDR = "172.31.9.100";
     //public static final String MONGO_DB_ADDR = "192.168.56.102";
     public static final String SERVER_NAME = "Hayabuza";
     public static final String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
