@@ -37,12 +37,10 @@ public class AuthenticationServices {
 
         Session s = authenticationSessionBean.authenticate(matcher.group(2), password, hostID);
         JsonObjectBuilder builder = Json.createObjectBuilder();
-        JsonArrayBuilder arrayBuilder = Json.createArrayBuilder();
-        arrayBuilder.add(s.toJson());
-
 
         builder.add("server", Preferences.SERVER_NAME);
         builder.add("session", s.toJson());
+
 
         return builder.build();
     }

@@ -3,6 +3,7 @@ package fr.grk.ecp.rs;
 import fr.grk.ecp.beans.AuthenticationSessionBean;
 import fr.grk.ecp.beans.FollowingSessionBean;
 import fr.grk.ecp.models.User;
+import fr.grk.ecp.models.UserStat;
 import fr.grk.ecp.utils.Preferences;
 
 import javax.inject.Inject;
@@ -14,6 +15,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -48,7 +50,28 @@ public class FollowingServices {
         }
         builder.add("server", Preferences.SERVER_NAME);
         builder.add("handle", handle);
-        builder.add("follows", arrayBuilder.build());
+        builder.add("users", arrayBuilder.build());
+
+        return builder.build();
+
+    }
+
+    @Path("/{handle}/discover")
+    @GET
+    @Produces("application/json")
+    public JsonObject getStats(@PathParam("handle") String handle) {
+
+        Matcher matcher = handlePattern.matcher(handle);
+        if (!matcher.matches()) throw new WebApplicationException("handle not valid", Response.Status.BAD_REQUEST);
+
+        //build json repsonse
+        JsonObjectBuilder builder = Json.createObjectBuilder();
+        JsonArrayBuilder arrayBuilder = Json.createArrayBuilder();
+        for (UserStat stat : followingSessionBean.getUserStats(matcher.group(2))) {
+            arrayBuilder.add(stat.toJson());
+        }
+        builder.add("server", Preferences.SERVER_NAME);
+        builder.add("stats", arrayBuilder.build());
 
         return builder.build();
 
@@ -70,17 +93,16 @@ public class FollowingServices {
         }
         builder.add("server", Preferences.SERVER_NAME);
         builder.add("handle", handle);
-        builder.add("followedBy", arrayBuilder.build());
+        builder.add("users", arrayBuilder.build());
 
         return builder.build();
 
     }
 
 
-    @Path("/{handle}/followings")
+    @Path("/{handle}/follow/{followeeHandle}")
     @POST
-    @Consumes("text/plain")
-    public Response follow(@PathParam("handle") String handle, @HeaderParam("token") String token, @HeaderParam("hostID") String hostID, String followeeHandle) {
+    public Response follow(@PathParam("handle") String handle, @PathParam("followeeHandle") String followeeHandle,  @HeaderParam("token") String token, @HeaderParam("hostID") String hostID) {
 
         if (followeeHandle == null)
             throw new WebApplicationException("followeeHandle missing", Response.Status.BAD_REQUEST);
@@ -91,10 +113,9 @@ public class FollowingServices {
     }
 
 
-    @Path("/{handle}/followings")
+    @Path("/{handle}/follow/{followeeHandle}")
     @DELETE
-    @Consumes("text/plain")
-    public Response unfollow(@PathParam("handle") String handle, @HeaderParam("token") String token, @HeaderParam("hostID") String hostID, String followeeHandle) {
+    public Response unfollow(@PathParam("handle") String handle, @PathParam("followeeHandle") String followeeHandle,  @HeaderParam("token") String token, @HeaderParam("hostID") String hostID) {
 
         if (followeeHandle == null)
             throw new WebApplicationException("followeeHandle missing", Response.Status.BAD_REQUEST);

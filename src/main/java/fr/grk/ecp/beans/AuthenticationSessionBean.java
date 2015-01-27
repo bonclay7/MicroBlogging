@@ -3,6 +3,7 @@ package fr.grk.ecp.beans;
 import com.mongodb.*;
 import fr.grk.ecp.models.Session;
 import fr.grk.ecp.models.User;
+import fr.grk.ecp.models.UserStat;
 import fr.grk.ecp.utils.Preferences;
 
 import javax.annotation.PostConstruct;
@@ -62,9 +63,22 @@ public class AuthenticationSessionBean {
         if (!u.getPassword().equalsIgnoreCase(hash(password))) throw new WebApplicationException("Wrong password", Response.Status.FORBIDDEN);
         if (hostID == null) throw new WebApplicationException("host missing", Response.Status.FORBIDDEN);
 
+        /*
+        UserStat us = new UserStat();
+        us.setHandle(u.getHandle());
+        us.setFollowers(followingSessionBean.getFollowers(u.getHandle()).size());
+        us.setFollows(followingSessionBean.getFollowings(u.getHandle()).size());
+        us.setPicture(u.getPicture());
+
+    */
+
 
         Session s = getActiveSession(handle, null, hostID);
-        if (s != null) return s;
+
+        if (s != null){
+            //s.setUser(us);
+            return s;
+        }
 
         //Session creation
         s = new Session();
@@ -73,6 +87,10 @@ public class AuthenticationSessionBean {
         s.setStatus(Preferences.SESSION_ACTIVE);
         s.setToken(hash(System.currentTimeMillis()+""));
         s.setHostID(hostID);
+
+
+
+//        s.setUser(us);
 
         //Persist in DB
         dbCollection.insert(s.toDBObject());

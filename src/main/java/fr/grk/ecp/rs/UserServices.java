@@ -2,6 +2,7 @@ package fr.grk.ecp.rs;
 
 import fr.grk.ecp.beans.UserSessionBean;
 import fr.grk.ecp.models.User;
+import fr.grk.ecp.models.UserStat;
 import fr.grk.ecp.utils.Preferences;
 
 import javax.inject.Inject;
@@ -53,6 +54,27 @@ public class UserServices {
         if (!matcher.matches()) throw new WebApplicationException("handle not valid", Response.Status.BAD_REQUEST);
 
         User u = userSessionBean.getUser(matcher.group(2));
+        if (u == null)
+            throw new WebApplicationException("handle not found", Response.Status.NOT_FOUND);
+
+
+
+
+        JsonObjectBuilder builder = Json.createObjectBuilder();
+        builder.add("server", Preferences.SERVER_NAME);
+        builder.add("user", u.toJson());
+        return builder.build();
+
+    }
+
+    @Path("/stats/{handle}")
+    @GET
+    @Produces("application/json")
+    public JsonObject getSomeUserStats(@PathParam("handle") String handle) {
+        Matcher matcher = handlePattern.matcher(handle);
+        if (!matcher.matches()) throw new WebApplicationException("handle not valid", Response.Status.BAD_REQUEST);
+
+        UserStat u = userSessionBean.getUserStats(matcher.group(2));
         if (u == null)
             throw new WebApplicationException("handle not found", Response.Status.NOT_FOUND);
 

@@ -3,6 +3,7 @@ package fr.grk.ecp.beans;
 import com.mongodb.*;
 import fr.grk.ecp.models.Following;
 import fr.grk.ecp.models.User;
+import fr.grk.ecp.models.UserStat;
 import fr.grk.ecp.utils.Preferences;
 
 import javax.annotation.PostConstruct;
@@ -116,9 +117,29 @@ public class FollowingSessionBean {
         BasicDBObject query = new BasicDBObject("followee", followingHandle);
         query.append("follower", handle);
         DBCursor cur = dbCollection.find(query);
-        if (null != cur && cur.hasNext())
+        if (!(null != cur && cur.hasNext()))
             throw new WebApplicationException("handle does not exists", Response.Status.NOT_FOUND);
         dbCollection.remove(cur.next());
+
+    }
+
+
+    public List<UserStat> getUserStats(String handle) {
+        List<UserStat> stats = new ArrayList<UserStat>();
+        List<User> users = userSessionBean.getUsers();
+        for (User u : users) {
+            if (!u.getHandle().equals(handle)){
+                UserStat stat = new UserStat();
+                stat.setHandle(u.getHandle());
+                stat.setPicture(u.getPicture());
+                stat.setFollowers(getFollowers(u.getHandle()).size());
+                stat.setFollows(getFollowings(u.getHandle()).size());
+                stat.setFollowed(isFollowing(handle, u.getHandle()));
+                stats.add(stat);
+            }
+        }
+
+        return stats;
 
     }
 

@@ -2,10 +2,13 @@ package fr.grk.ecp.beans;
 
 import com.mongodb.*;
 import fr.grk.ecp.models.User;
+import fr.grk.ecp.models.UserStat;
 import fr.grk.ecp.utils.Preferences;
 
 import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import javax.inject.Inject;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response;
 import java.net.UnknownHostException;
@@ -21,6 +24,10 @@ import java.util.logging.Logger;
  */
 @Stateless
 public class UserSessionBean {
+
+
+    @EJB
+    FollowingSessionBean followingSessionBean;
 
     private DBCollection dbCollection;
     //User user;
@@ -99,6 +106,18 @@ public class UserSessionBean {
         return null;
     }
 
+    public UserStat getUserStats(String handle) {
+        User u = getUser(handle);
+
+        UserStat us = new UserStat();
+        us.setHandle(u.getHandle());
+        us.setFollowers(followingSessionBean.getFollowers(u.getHandle()).size());
+        us.setFollows(followingSessionBean.getFollowings(u.getHandle()).size());
+        us.setPicture(u.getPicture());
+
+        return us;
+    }
+
 
     /**
      * Return the user list in a wrapper object
@@ -113,5 +132,10 @@ public class UserSessionBean {
         }
         return users;
     }
+
+
+
+
+
 
 }

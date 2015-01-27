@@ -60,6 +60,23 @@ public class TweetSessionBean {
             System.out.println(dbo.toString());
             tweets.add(Tweet.fromDBObject(dbo));
         }
+
+        //ordering list
+        Collections.sort(tweets, new Comparator<Tweet>() {
+            @Override
+            public int compare(Tweet o1, Tweet o2) {
+                try {
+                    Date dateO1 = new SimpleDateFormat(Preferences.DATE_FORMAT).parse(o1.getTime());
+                    Date dateO2 = new SimpleDateFormat(Preferences.DATE_FORMAT).parse(o2.getTime());
+                    return dateO2.compareTo(dateO1);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                return 0;
+            }
+        });
+
+
         return tweets;
     }
 
@@ -78,6 +95,21 @@ public class TweetSessionBean {
         for (DBObject dbo : cur.toArray()) {
             tweets.add(Tweet.fromDBObject(dbo));
         }
+
+        //ordering list
+        Collections.sort(tweets, new Comparator<Tweet>() {
+            @Override
+            public int compare(Tweet o1, Tweet o2) {
+                try {
+                    Date dateO1 = new SimpleDateFormat(Preferences.DATE_FORMAT).parse(o1.getTime());
+                    Date dateO2 = new SimpleDateFormat(Preferences.DATE_FORMAT).parse(o2.getTime());
+                    return dateO2.compareTo(dateO1);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                return 0;
+            }
+        });
 
         return tweets;
     }

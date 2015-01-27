@@ -17,7 +17,8 @@ public class Session extends MongoObject{
     private String hostID;
     private String creationDate;
     private int status;
-
+//    private UserStat user;
+//
 
     public String getHostID() {
         return hostID;
@@ -81,6 +82,7 @@ public class Session extends MongoObject{
     @Override
     public JsonObject toJson() {
         return Json.createObjectBuilder()
+                //.add("user", getUser().toJson())
                 .add("handle", getHandle())
                 .add("token", getToken())
                 .add("creationDate", getCreationDate())
