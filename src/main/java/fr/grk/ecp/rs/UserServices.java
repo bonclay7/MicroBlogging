@@ -1,5 +1,9 @@
 package fr.grk.ecp.rs;
 
+import com.wordnik.swagger.annotations.Api;
+import com.wordnik.swagger.annotations.ApiOperation;
+import com.wordnik.swagger.annotations.ApiResponse;
+import com.wordnik.swagger.annotations.ApiResponses;
 import fr.grk.ecp.beans.UserSessionBean;
 import fr.grk.ecp.models.User;
 import fr.grk.ecp.models.UserStat;
@@ -22,6 +26,7 @@ import java.util.regex.Pattern;
  * Created by grk on 07/12/14.
  */
 @Path("/users")
+@Api(value = "/hello", description = "Say Hello!")
 public class UserServices {
 
 
@@ -34,6 +39,11 @@ public class UserServices {
     @Path("/")
     @GET
     @Produces("application/json")
+    @ApiOperation(value = "All users")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "OK"),
+            @ApiResponse(code = 500, message = "Something wrong in Server")}
+    )
     public JsonObject getAllUsers() {
         JsonObjectBuilder builder = Json.createObjectBuilder();
         JsonArrayBuilder arrayBuilder = Json.createArrayBuilder();
