@@ -2,76 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="55d3a725-726a-4cc8-8cbe-71b3515d159e" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_jackson_core_jackson_annotations_2_1_5.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_jackson_core_jackson_core_2_1_5.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_jackson_core_jackson_databind_2_1_5.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_jackson_jaxrs_jackson_jaxrs_json_provider_2_0_0.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_jackson_module_jackson_module_jaxb_annotations_2_0_0.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_jackson_module_jackson_module_jsonSchema_2_1_0.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_jackson_module_jackson_module_scala_2_10_2_1_5.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_google_code_findbugs_jsr305_1_3_9.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_google_guava_guava_11_0_2.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_thoughtworks_paranamer_paranamer_2_3.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_wordnik_swagger_annotations_1_3_1.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_wordnik_swagger_core_2_10_1_3_1.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_wordnik_swagger_jaxrs_2_10_1_3_1.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__commons_lang_commons_lang_2_4.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__dom4j_dom4j_1_6_1.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__javassist_javassist_3_12_1_GA.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__javax_ws_rs_jsr311_api_1_1_1.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__joda_time_joda_time_2_1.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_joda_joda_convert_1_2.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_json4s_json4s_ast_2_10_3_2_4.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_json4s_json4s_core_2_10_3_2_4.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_json4s_json4s_ext_2_10_3_2_4.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_json4s_json4s_jackson_2_10_3_2_4.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_json4s_json4s_native_2_10_3_2_4.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_reflections_reflections_0_9_8.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_scala_lang_scala_compiler_2_10_0.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_scala_lang_scala_library_2_10_0.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_scala_lang_scala_reflect_2_10_0.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_scala_lang_scalap_2_10_0.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_slf4j_slf4j_api_1_6_3.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__xml_apis_xml_apis_1_0_b2.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/fr/grk/ecp/utils/SwaggerJaxrsConfig.java" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_lambdaworks_scrypt_1_4_0.xml" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/MicroBlogging/WEB-INF/classes/fr/grk/ecp/beans/AuthenticationSessionBean.class" afterPath="$PROJECT_DIR$/target/MicroBlogging/WEB-INF/classes/fr/grk/ecp/beans/AuthenticationSessionBean.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/fr/grk/ecp/beans/AuthenticationSessionBean.class" afterPath="$PROJECT_DIR$/target/classes/fr/grk/ecp/beans/AuthenticationSessionBean.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/MicroBlogging/WEB-INF/classes/fr/grk/ecp/beans/FollowingSessionBean.class" afterPath="$PROJECT_DIR$/target/MicroBlogging/WEB-INF/classes/fr/grk/ecp/beans/FollowingSessionBean.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/fr/grk/ecp/beans/FollowingSessionBean.class" afterPath="$PROJECT_DIR$/target/classes/fr/grk/ecp/beans/FollowingSessionBean.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/MicroBlogging.war" afterPath="$PROJECT_DIR$/target/MicroBlogging.war" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/MicroBlogging/WEB-INF/classes/fr/grk/ecp/utils/Preferences.class" afterPath="$PROJECT_DIR$/target/MicroBlogging/WEB-INF/classes/fr/grk/ecp/utils/Preferences.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/fr/grk/ecp/utils/Preferences.class" afterPath="$PROJECT_DIR$/target/classes/fr/grk/ecp/utils/Preferences.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/fr/grk/ecp/beans/TweetSessionBean.class" afterPath="$PROJECT_DIR$/target/classes/fr/grk/ecp/beans/TweetSessionBean.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/MicroBlogging/WEB-INF/classes/fr/grk/ecp/models/User.class" afterPath="$PROJECT_DIR$/target/MicroBlogging/WEB-INF/classes/fr/grk/ecp/models/User.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/fr/grk/ecp/models/User.class" afterPath="$PROJECT_DIR$/target/classes/fr/grk/ecp/models/User.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/MicroBlogging/WEB-INF/classes/fr/grk/ecp/beans/UserSessionBean.class" afterPath="$PROJECT_DIR$/target/MicroBlogging/WEB-INF/classes/fr/grk/ecp/beans/UserSessionBean.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/fr/grk/ecp/beans/UserSessionBean.class" afterPath="$PROJECT_DIR$/target/classes/fr/grk/ecp/beans/UserSessionBean.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/fr/grk/ecp/rs/Application.java" afterPath="$PROJECT_DIR$/src/main/java/fr/grk/ecp/rs/Application.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/fr/grk/ecp/rs/AuthenticationServices.java" afterPath="$PROJECT_DIR$/src/main/java/fr/grk/ecp/rs/AuthenticationServices.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/fr/grk/ecp/beans/AuthenticationSessionBean.java" afterPath="$PROJECT_DIR$/src/main/java/fr/grk/ecp/beans/AuthenticationSessionBean.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/fr/grk/ecp/models/Following.java" afterPath="$PROJECT_DIR$/src/main/java/fr/grk/ecp/models/Following.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/fr/grk/ecp/rs/FollowingServices.java" afterPath="$PROJECT_DIR$/src/main/java/fr/grk/ecp/rs/FollowingServices.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/fr/grk/ecp/beans/FollowingSessionBean.java" afterPath="$PROJECT_DIR$/src/main/java/fr/grk/ecp/beans/FollowingSessionBean.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/MANIFEST.MF" afterPath="$PROJECT_DIR$/target/MANIFEST.MF" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/MicroBlogging/META-INF/MANIFEST.MF" afterPath="$PROJECT_DIR$/target/MicroBlogging/META-INF/MANIFEST.MF" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MicroBlogging.iml" afterPath="$PROJECT_DIR$/MicroBlogging.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/artifacts/MicroBlogging_war_exploded.xml" afterPath="$PROJECT_DIR$/.idea/artifacts/MicroBlogging_war_exploded.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/fr/grk/ecp/models/MongoObject.java" afterPath="$PROJECT_DIR$/src/main/java/fr/grk/ecp/models/MongoObject.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/fr/grk/ecp/utils/Preferences.java" afterPath="$PROJECT_DIR$/src/main/java/fr/grk/ecp/utils/Preferences.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/fr/grk/ecp/models/Session.java" afterPath="$PROJECT_DIR$/src/main/java/fr/grk/ecp/models/Session.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/fr/grk/ecp/models/Tweet.java" afterPath="$PROJECT_DIR$/src/main/java/fr/grk/ecp/models/Tweet.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/fr/grk/ecp/beans/TweetSessionBean.java" afterPath="$PROJECT_DIR$/src/main/java/fr/grk/ecp/beans/TweetSessionBean.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/fr/grk/ecp/rs/TweetsServices.java" afterPath="$PROJECT_DIR$/src/main/java/fr/grk/ecp/rs/TweetsServices.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/fr/grk/ecp/models/User.java" afterPath="$PROJECT_DIR$/src/main/java/fr/grk/ecp/models/User.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/fr/grk/ecp/rs/UserServices.java" afterPath="$PROJECT_DIR$/src/main/java/fr/grk/ecp/rs/UserServices.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/fr/grk/ecp/beans/UserSessionBean.java" afterPath="$PROJECT_DIR$/src/main/java/fr/grk/ecp/beans/UserSessionBean.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/fr/grk/ecp/models/UserStat.java" afterPath="$PROJECT_DIR$/src/main/java/fr/grk/ecp/models/UserStat.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/META-INF/beans.xml" afterPath="$PROJECT_DIR$/src/main/resources/META-INF/beans.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/MicroBlogging/WEB-INF/classes/META-INF/beans.xml" afterPath="$PROJECT_DIR$/target/MicroBlogging/WEB-INF/classes/META-INF/beans.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/META-INF/beans.xml" afterPath="$PROJECT_DIR$/target/classes/META-INF/beans.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pom.xml" afterPath="$PROJECT_DIR$/pom.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="MicroBlogging.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -105,14 +37,16 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="Application.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Application.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/fr/grk/ecp/rs/Application.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.31437126" vertical-offset="0" max-vertical-offset="668">
-              <caret line="14" column="82" selection-start-line="14" selection-start-column="82" selection-end-line="14" selection-end-column="82" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="495">
+              <caret line="15" column="8" selection-start-line="15" selection-start-column="8" selection-end-line="15" selection-end-column="8" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#321#331#0" expanded="true" />
+                <element signature="e#822#823#0" expanded="true" />
+                <element signature="e#885#886#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -140,11 +74,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="UserServices.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="UserServices.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/fr/grk/ecp/rs/UserServices.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="345" max-vertical-offset="1815">
-              <caret line="41" column="37" selection-start-line="41" selection-start-column="37" selection-end-line="41" selection-end-column="37" />
+            <state vertical-scroll-proportion="0.6062874" vertical-offset="690" max-vertical-offset="1845">
+              <caret line="73" column="0" selection-start-line="73" selection-start-column="0" selection-end-line="73" selection-end-column="0" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -186,8 +120,8 @@
         <option value="$PROJECT_DIR$/src/main/java/fr/grk/ecp/utils/Preferences.java" />
         <option value="$PROJECT_DIR$/pom.xml" />
         <option value="$PROJECT_DIR$/src/main/java/fr/grk/ecp/utils/SwaggerJaxrsConfig.java" />
-        <option value="$PROJECT_DIR$/src/main/java/fr/grk/ecp/rs/UserServices.java" />
         <option value="$PROJECT_DIR$/src/main/java/fr/grk/ecp/rs/Application.java" />
+        <option value="$PROJECT_DIR$/src/main/java/fr/grk/ecp/rs/UserServices.java" />
       </list>
     </option>
   </component>
@@ -962,7 +896,7 @@
       <workItem from="1423229041155" duration="150000" />
       <workItem from="1423503911784" duration="4548000" />
       <workItem from="1423511523418" duration="1603000" />
-      <workItem from="1423516464896" duration="1014000" />
+      <workItem from="1423516464896" duration="2453000" />
     </task>
     <task id="LOCAL-00001" summary="Test">
       <created>1421502794699</created>
@@ -974,7 +908,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="117693000" />
+    <option name="totallyTimeSpent" value="119132000" />
   </component>
   <component name="TodoView" selected-index="0">
     <todo-panel id="selected-file">
@@ -1079,14 +1013,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/main/java/fr/grk/ecp/utils/Preferences.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="270" max-vertical-offset="465">
-          <caret line="18" column="0" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/pom.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="315" max-vertical-offset="630">
@@ -1102,6 +1028,8 @@
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#321#331#0" expanded="true" />
+            <element signature="e#822#823#0" expanded="true" />
+            <element signature="e#885#886#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1371,16 +1299,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/fr/grk/ecp/beans/UserSessionBean.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="738" max-vertical-offset="2205">
-          <caret line="28" column="8" selection-start-line="28" selection-start-column="8" selection-end-line="28" selection-end-column="8" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/resources/META-INF/beans.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="195">
@@ -1431,13 +1349,24 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/fr/grk/ecp/rs/UserServices.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/fr/grk/ecp/rs/Application.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="345" max-vertical-offset="1815">
-          <caret line="41" column="37" selection-start-line="41" selection-start-column="37" selection-end-line="41" selection-end-column="37" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="495">
+          <caret line="15" column="8" selection-start-line="15" selection-start-column="8" selection-end-line="15" selection-end-column="8" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="e#321#331#0" expanded="true" />
+            <element signature="e#822#823#0" expanded="true" />
+            <element signature="e#885#886#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/fr/grk/ecp/utils/Preferences.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="465">
+          <caret line="9" column="6" selection-start-line="9" selection-start-column="6" selection-end-line="9" selection-end-column="6" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1451,21 +1380,30 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/fr/grk/ecp/utils/Preferences.java">
+    <entry file="jar://$MAVEN_REPOSITORY$/javax/javaee-api/7.0/javaee-api-7.0.jar!/javax/ws/rs/core/Response.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="465">
-          <caret line="9" column="6" selection-start-line="9" selection-start-column="6" selection-end-line="9" selection-end-column="6" />
+        <state vertical-scroll-proportion="0.3452566" vertical-offset="2253" max-vertical-offset="5145">
+          <caret line="199" column="8" selection-start-line="199" selection-start-column="8" selection-end-line="199" selection-end-column="8" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/fr/grk/ecp/rs/Application.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/fr/grk/ecp/beans/UserSessionBean.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.31437126" vertical-offset="0" max-vertical-offset="668">
-          <caret line="14" column="82" selection-start-line="14" selection-start-column="82" selection-end-line="14" selection-end-column="82" />
+        <state vertical-scroll-proportion="0.33233532" vertical-offset="1263" max-vertical-offset="2205">
+          <caret line="99" column="16" selection-start-line="99" selection-start-column="16" selection-end-line="99" selection-end-column="16" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#321#331#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/fr/grk/ecp/rs/UserServices.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.6062874" vertical-offset="690" max-vertical-offset="1845">
+          <caret line="73" column="0" selection-start-line="73" selection-start-column="0" selection-end-line="73" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>

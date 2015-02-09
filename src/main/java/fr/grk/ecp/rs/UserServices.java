@@ -1,9 +1,7 @@
 package fr.grk.ecp.rs;
 
-import com.wordnik.swagger.annotations.Api;
-import com.wordnik.swagger.annotations.ApiOperation;
-import com.wordnik.swagger.annotations.ApiResponse;
-import com.wordnik.swagger.annotations.ApiResponses;
+import com.wordnik.swagger.annotations.*;
+
 import fr.grk.ecp.beans.UserSessionBean;
 import fr.grk.ecp.models.User;
 import fr.grk.ecp.models.UserStat;
@@ -26,7 +24,7 @@ import java.util.regex.Pattern;
  * Created by grk on 07/12/14.
  */
 @Path("/users")
-@Api(value = "/hello", description = "Say Hello!")
+@Api(value = "/users", description = "Microblogging users")
 public class UserServices {
 
 
@@ -39,7 +37,7 @@ public class UserServices {
     @Path("/")
     @GET
     @Produces("application/json")
-    @ApiOperation(value = "All users")
+    @ApiOperation(value = "Get All users", notes = "Array of microblogging users with server info")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "OK"),
             @ApiResponse(code = 500, message = "Something wrong in Server")}
@@ -59,16 +57,20 @@ public class UserServices {
     @Path("/{handle}")
     @GET
     @Produces("application/json")
-    public JsonObject getSomeUser(@PathParam("handle") String handle) {
+    @ApiOperation(value = "Get a user details from a handle")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "OK"),
+            @ApiResponse(code = 404, message = "User handle doesn't exists"),
+            @ApiResponse(code = 400, message = "User handle not valid"),
+            @ApiResponse(code = 500, message = "Something wrong in Server")}
+    )
+    public JsonObject getSomeUser(@ApiParam(name = "handle", value = "alphanumeric user handle starting by ':'", required = true) @PathParam("handle") String handle) {
         Matcher matcher = handlePattern.matcher(handle);
         if (!matcher.matches()) throw new WebApplicationException("handle not valid", Response.Status.BAD_REQUEST);
 
         User u = userSessionBean.getUser(matcher.group(2));
         if (u == null)
             throw new WebApplicationException("handle not found", Response.Status.NOT_FOUND);
-
-
-
 
         JsonObjectBuilder builder = Json.createObjectBuilder();
         builder.add("server", Preferences.SERVER_NAME);

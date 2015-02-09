@@ -16,9 +16,13 @@ public class Application extends javax.ws.rs.core.Application {
         resources.add(com.wordnik.swagger.jaxrs.listing.ApiDeclarationProvider.class);
         resources.add(com.wordnik.swagger.jaxrs.listing.ApiListingResourceJSON.class);
         resources.add(com.wordnik.swagger.jaxrs.listing.ResourceListingProvider.class);
-        //addRestResourceClasses(resources);
+        addRestResourceClasses(resources);
         return resources;
     }
 
+
+    private void addRestResourceClasses(Set<Class<?>> resources) {
+        resources.add(fr.grk.ecp.rs.UserServices.class);
+    }
 
 }
