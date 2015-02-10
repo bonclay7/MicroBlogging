@@ -1,5 +1,6 @@
 package fr.grk.ecp.rs;
 
+import com.wordnik.swagger.annotations.*;
 import fr.grk.ecp.beans.AuthenticationSessionBean;
 import fr.grk.ecp.beans.FollowingSessionBean;
 import fr.grk.ecp.models.User;
@@ -15,17 +16,16 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
  * Created by grk on 07/12/14.
  */
-@Path("/")
-public class FollowingServices {
+@Path("/followings")
+@Api(value = "/followings", description = "User's followings")
+public class FollowingServices extends MicrobloggingService  implements ApiSecurity{
 
-    private static final Pattern handlePattern = Pattern.compile("^(:)(\\w+)$");
     @Inject
     FollowingSessionBean followingSessionBean;
     @Inject
@@ -34,10 +34,17 @@ public class FollowingServices {
     private UriInfo context;
 
 
-    @Path("/{handle}/followings")
+    @Path("/{handle}")
     @GET
     @Produces("application/json")
-    public JsonObject getUserFollowings(@PathParam("handle") String handle) {
+    @ApiOperation(value = "Get user followings", notes = "Get all followings of some user passed in argument")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "OK"),
+            @ApiResponse(code = 400, message = "User handle is not valid"),
+            @ApiResponse(code = 404, message = "User handle doesn't exists"),
+            @ApiResponse(code = 500, message = "Something wrong in Server")}
+    )
+    public JsonObject getUserFollowings(@ApiParam(name = "handle", value = "alphanumeric user handle starting by ':'", required = true) @PathParam("handle") String handle) {
 
         Matcher matcher = handlePattern.matcher(handle);
         if (!matcher.matches()) throw new WebApplicationException("handle not valid", Response.Status.BAD_REQUEST);
@@ -59,7 +66,14 @@ public class FollowingServices {
     @Path("/{handle}/discover")
     @GET
     @Produces("application/json")
-    public JsonObject getStats(@PathParam("handle") String handle) {
+    @ApiOperation(value = "Get Stats", notes = "Get all users stats (followings/followees) from a user view passed in argument")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "OK"),
+            @ApiResponse(code = 400, message = "User handle is not valid"),
+            @ApiResponse(code = 404, message = "User handle doesn't exists"),
+            @ApiResponse(code = 500, message = "Something wrong in Server")}
+    )
+    public JsonObject getStats( @ApiParam(name = "handle", value = "alphanumeric user handle starting by ':'", required = true) @PathParam("handle") String handle) {
 
         Matcher matcher = handlePattern.matcher(handle);
         if (!matcher.matches()) throw new WebApplicationException("handle not valid", Response.Status.BAD_REQUEST);
@@ -77,36 +91,29 @@ public class FollowingServices {
 
     }
 
-    @Path("/{handle}/followers")
-    @GET
-    @Produces("application/json")
-    public JsonObject getUserFollowers(@PathParam("handle") String handle) {
-
-        Matcher matcher = handlePattern.matcher(handle);
-        if (!matcher.matches()) throw new WebApplicationException("handle not valid", Response.Status.BAD_REQUEST);
-
-        //build json repsonse
-        JsonObjectBuilder builder = Json.createObjectBuilder();
-        JsonArrayBuilder arrayBuilder = Json.createArrayBuilder();
-        for (User user : followingSessionBean.getFollowers(matcher.group(2))) {
-            arrayBuilder.add(user.toJson());
-        }
-        builder.add("server", Preferences.SERVER_NAME);
-        builder.add("handle", handle);
-        builder.add("users", arrayBuilder.build());
-
-        return builder.build();
-
-    }
-
 
     @Path("/{handle}/follow/{followeeHandle}")
     @POST
-    public Response follow(@PathParam("handle") String handle, @PathParam("followeeHandle") String followeeHandle,  @HeaderParam("token") String token, @HeaderParam("hostID") String hostID) {
+    @ApiOperation(value = "Follow", notes = "Follow a user identified by his handle. [Authenticated method]")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "OK"),
+            @ApiResponse(code = 400, message = "User handle or followee handle is not valid"),
+            @ApiResponse(code = 403, message = "Authentication error, or followee already followed"),
+            @ApiResponse(code = 404, message = "User handle doesn't exists"),
+            @ApiResponse(code = 500, message = "Something wrong in Server")}
+    )
+    public Response follow(@ApiParam(name = "handle", value = "alphanumeric user handle starting by ':'", required = true) @PathParam("handle") String handle,
+                           @ApiParam(name = "followeeHandle", value = "alphanumeric user handle starting by ':'", required = true) @PathParam("followeeHandle") String followeeHandle,
+                           @ApiParam(name = "api_token", value = "Api token [api_token.host_id]", defaultValue = "api_token.host_id", required = true) @HeaderParam("Authorization") String apiToken)
+    {
+        //very important to have values in getToken() and getHostID() methods
+        super.parseAPIToken(apiToken);
+
+        System.out.printf(apiToken);
 
         if (followeeHandle == null)
             throw new WebApplicationException("followeeHandle missing", Response.Status.BAD_REQUEST);
-        handle = authorize(handle, token, hostID);
+        handle = authorize(handle, getToken(), getHostID());
 
         followingSessionBean.follow(handle, followeeHandle);
         return Response.accepted().build();
@@ -115,11 +122,26 @@ public class FollowingServices {
 
     @Path("/{handle}/follow/{followeeHandle}")
     @DELETE
-    public Response unfollow(@PathParam("handle") String handle, @PathParam("followeeHandle") String followeeHandle,  @HeaderParam("token") String token, @HeaderParam("hostID") String hostID) {
+    @ApiOperation(value = "Unfollow", notes = "Unfollow a user identified by his handle. [Authenticated method]")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "OK"),
+            @ApiResponse(code = 400, message = "User handle or followee handle is not valid (':')"),
+            @ApiResponse(code = 403, message = "Authentication error, or followee not followed"),
+            @ApiResponse(code = 404, message = "User handle or followee handle doesn't exists"),
+            @ApiResponse(code = 500, message = "Something wrong in Server")}
+    )
+    public Response unfollow(@ApiParam(name = "handle", value = "alphanumeric user handle starting by ':'", required = true) @PathParam("handle") String handle,
+                             @ApiParam(name = "followeeHandle", value = "alphanumeric user handle starting by ':'", required = true) @PathParam("followeeHandle") String followeeHandle,
+                             @ApiParam(name = "api_token", value = "Api token [api_token.host_id]", defaultValue = "api_token.host_id", required = true) @HeaderParam("Authorization") String apiToken) {
+
+
+
+        //very important to have values in getToken() and getHostID() methods
+        super.parseAPIToken(apiToken);
 
         if (followeeHandle == null)
             throw new WebApplicationException("followeeHandle missing", Response.Status.BAD_REQUEST);
-        handle = authorize(handle, token, hostID);
+        handle = authorize(handle, getToken(), getHostID());
         followingSessionBean.unfollow(handle, followeeHandle);
         return Response.noContent().build();
     }
@@ -133,7 +155,8 @@ public class FollowingServices {
      * @return well parsed handle
      * @throws WebApplicationException
      */
-    private String authorize(String handle, String token, String hostID) throws WebApplicationException {
+    @Override
+    public String authorize(String handle, String token, String hostID) throws WebApplicationException {
         Matcher matcher = handlePattern.matcher(handle);
         if (!matcher.matches()) throw new WebApplicationException("handle not valid", Response.Status.BAD_REQUEST);
         if (token == null) throw new WebApplicationException("token missing", Response.Status.FORBIDDEN);

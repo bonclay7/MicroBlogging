@@ -24,7 +24,7 @@ import java.util.regex.Pattern;
  * Created by grk on 07/12/14.
  */
 @Path("/users")
-@Api(value = "/users", description = "Microblogging users")
+@Api(value = "/users", description = "Microblogging users", position = 2)
 public class UserServices {
 
 

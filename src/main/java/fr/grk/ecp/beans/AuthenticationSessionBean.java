@@ -112,7 +112,7 @@ public class AuthenticationSessionBean {
 
     public void disconnect(String handle, String token, String hostID) throws WebApplicationException{
         if (handle == null) throw new WebApplicationException("handle does not exists", Response.Status.NOT_FOUND);
-        if (getActiveSession(handle, token, hostID) == null) throw new WebApplicationException(handle + " not connected", Response.Status.BAD_REQUEST);
+        if (getActiveSession(handle, token, hostID) == null) throw new WebApplicationException(handle + " not connected", Response.Status.FORBIDDEN);
 
         BasicDBObject searchQuery = new BasicDBObject("handle", handle).append("token",token);
 

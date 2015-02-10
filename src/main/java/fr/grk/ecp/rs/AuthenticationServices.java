@@ -1,5 +1,6 @@
 package fr.grk.ecp.rs;
 
+import com.wordnik.swagger.annotations.*;
 import fr.grk.ecp.beans.AuthenticationSessionBean;
 import fr.grk.ecp.models.Session;
 import fr.grk.ecp.utils.Preferences;
@@ -17,18 +18,26 @@ import java.util.regex.Pattern;
 /**
  * Created by grk on 17/01/15.
  */
-@Path("/")
-public class AuthenticationServices {
+@Path("/authenticate")
+@Api(value = "/authenticate", description = "API login", position = 1)
+public class AuthenticationServices extends MicrobloggingService{
 
-    private static final Pattern handlePattern = Pattern.compile("^(:)(\\w+)$");
     @Inject
     AuthenticationSessionBean authenticationSessionBean;
 
-    @Path("/{handle}/authenticate")
+    @Path("/{handle}")
     @POST
     @Produces("application/json")
-    public JsonObject authenticate(@PathParam("handle") String handle,
-                                   @HeaderParam("password") String password, @HeaderParam("hostID") String hostID) {
+    @ApiOperation(value = "get API token to access methods requiring authorization")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "OK"),
+            @ApiResponse(code = 400, message = "User handle/host id not valid"),
+            @ApiResponse(code = 403, message = "Invalid Password"),
+            @ApiResponse(code = 404, message = "User handle doesn't exists"),
+            @ApiResponse(code = 500, message = "Something wrong in Server")}
+    )
+    public JsonObject authenticate(@ApiParam(name = "handle", value = "alphanumeric user handle starting by ':'", required = true) @PathParam("handle") String handle,
+                                    @HeaderParam("password") String password, @HeaderParam("hostID") String hostID) {
 
         Matcher matcher = handlePattern.matcher(handle);
         if (!matcher.matches()) throw new WebApplicationException("handle not valid", Response.Status.BAD_REQUEST);
@@ -44,18 +53,4 @@ public class AuthenticationServices {
 
         return builder.build();
     }
-
-
-    @Path("/{handle}/disconnect")
-    @POST
-    public Response disconnect(@PathParam("handle") String handle, @HeaderParam("token") String token, @HeaderParam("hostID") String hostID) {
-
-        Matcher matcher = handlePattern.matcher(handle);
-        if (!matcher.matches()) throw new WebApplicationException("handle not valid", Response.Status.BAD_REQUEST);
-
-        authenticationSessionBean.disconnect(matcher.group(2), token, hostID);
-        return Response.noContent().build();
-    }
-
-
 }
