@@ -82,7 +82,14 @@ public class UserServices {
     @Path("/stats/{handle}")
     @GET
     @Produces("application/json")
-    public JsonObject getSomeUserStats(@PathParam("handle") String handle) {
+    @ApiOperation(value = "Get a user stats (followers, followings) from a handle")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "OK"),
+            @ApiResponse(code = 404, message = "User handle doesn't exists"),
+            @ApiResponse(code = 400, message = "User handle not valid"),
+            @ApiResponse(code = 500, message = "Something wrong in Server")}
+    )
+    public JsonObject getSomeUserStats(@ApiParam(name = "handle", value = "alphanumeric user handle starting by ':'", required = true) @PathParam("handle") String handle) {
         Matcher matcher = handlePattern.matcher(handle);
         if (!matcher.matches()) throw new WebApplicationException("handle not valid", Response.Status.BAD_REQUEST);
 
@@ -103,7 +110,13 @@ public class UserServices {
     @Path("/")
     @POST
     @Consumes("application/json")
-    public Response createUser(User u) {
+    @ApiOperation(value = "Create a User", notes = "Create a user from JSON Object")
+    @ApiResponses(value = {
+            @ApiResponse(code = 201, message = "User created"),
+            @ApiResponse(code = 400, message = "User handle or password not valid or missing"),
+            @ApiResponse(code = 500, message = "Something wrong in Server")}
+    )
+    public Response createUser(@ApiParam(required = true, name = "user") User u) {
         if (u.getHandle() == null) throw new WebApplicationException("handle is missing", Response.Status.BAD_REQUEST);
         if (u.getPassword() == null)
             throw new WebApplicationException("password is missing", Response.Status.BAD_REQUEST);
