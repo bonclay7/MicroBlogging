@@ -60,6 +60,9 @@ public class FollowingSessionBean {
      * @return
      */
     public List<User> getFollowings(String handle) {
+
+        if (userSessionBean.getUser(handle) == null)  throw new WebApplicationException("handle not valid", Response.Status.NOT_FOUND);
+
         BasicDBObject query = new BasicDBObject("follower", handle);
         DBCursor cur = dbCollection.find(query);
 
@@ -79,6 +82,9 @@ public class FollowingSessionBean {
      * @return
      */
     public List<User> getFollowers(String handle) {
+
+        if (userSessionBean.getUser(handle) == null)  throw new WebApplicationException("handle not valid", Response.Status.NOT_FOUND);
+
         BasicDBObject query = new BasicDBObject("followee", handle);
         DBCursor cur = dbCollection.find(query);
 
@@ -125,6 +131,9 @@ public class FollowingSessionBean {
 
 
     public List<UserStat> getUserStats(String handle) {
+
+        if (userSessionBean.getUser(handle) == null)  throw new WebApplicationException("handle not valid", Response.Status.NOT_FOUND);
+
         List<UserStat> stats = new ArrayList<UserStat>();
         List<User> users = userSessionBean.getUsers();
         for (User u : users) {

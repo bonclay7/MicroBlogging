@@ -106,8 +106,10 @@ public class UserSessionBean {
         return null;
     }
 
-    public UserStat getUserStats(String handle) {
+    public UserStat getUserStats(String handle) throws WebApplicationException{
         User u = getUser(handle);
+
+        if (u == null) throw new WebApplicationException("handle not valid", Response.Status.NOT_FOUND);
 
         UserStat us = new UserStat();
         us.setHandle(u.getHandle());

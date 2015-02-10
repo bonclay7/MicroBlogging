@@ -23,7 +23,7 @@ import java.util.regex.Matcher;
  * Created by grk on 07/12/14.
  */
 @Path("/tweets")
-@Api(value = "/tweets", description = "All about tweets")
+@Api(value = "/tweets", description = "All about tweets", position = 3)
 public class TweetsServices extends MicrobloggingService implements ApiSecurity {
 
 
@@ -85,17 +85,18 @@ public class TweetsServices extends MicrobloggingService implements ApiSecurity 
     @Consumes("text/plain")
     @ApiOperation(value = "Create tweet", notes = "Create a tweet")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "OK"),
+            @ApiResponse(code = 201, message = "OK"),
             @ApiResponse(code = 400, message = "User handle is not valid"),
+            @ApiResponse(code = 403, message = "Authorization failed"),
             @ApiResponse(code = 404, message = "User handle doesn't exists"),
             @ApiResponse(code = 500, message = "Something wrong in Server")}
     )
     public Response createTweet(
             @ApiParam(name = "handle", value = "alphanumeric user handle starting by ':'", required = true) @PathParam("handle") String handle,
-            @ApiParam(name = "api_token", value = "Api token [Bearer api_token.host_id]", required = true) @HeaderParam("Authorization") String apiToken,
-            String message) {
+            @ApiParam(name = "Authorization", value = "Api token [Bearer api_token.host_id]", required = true) @HeaderParam("Authorization") String apiToken,
+            @ApiParam(name = "message", value = "tweet message content", required = true) String message) {
 
-        super.parseAPIToken(apiToken);
+        this.parseAPIToken(apiToken);
 
         if (message == null)
             throw new WebApplicationException("handle and/or message missing", Response.Status.BAD_REQUEST);
@@ -116,14 +117,16 @@ public class TweetsServices extends MicrobloggingService implements ApiSecurity 
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "OK"),
             @ApiResponse(code = 400, message = "User handle is not valid"),
+            @ApiResponse(code = 403, message = "Authorization failed"),
             @ApiResponse(code = 404, message = "User handle doesn't exists"),
             @ApiResponse(code = 500, message = "Something wrong in Server")}
     )
     public JsonObject getReadingList(@ApiParam(name = "handle", value = "alphanumeric user handle starting by ':'", required = true) @PathParam("handle") String handle,
-                                     @ApiParam(name = "api_token", value = "Api token [Bearer api_token.host_id]", required = true) @HeaderParam("Authorization") String apiToken) {
-        super.parseAPIToken(apiToken);
+                                     @ApiParam(name = "Authorization", value = "Api token [Bearer api_token.host_id]", required = true) @HeaderParam("Authorization") String apiToken) {
 
-        handle = authorize(handle, getToken(), getHostID());
+        this.parseAPIToken(apiToken);
+
+        handle = authorize(handle, this.getToken(), this.getHostID());
         return prepareJson(tweetSessionBean.getReadingList(handle));
     }
 

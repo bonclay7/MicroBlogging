@@ -23,7 +23,7 @@ import java.util.regex.Pattern;
  * Created by grk on 07/12/14.
  */
 @Path("/followings")
-@Api(value = "/followings", description = "User's followings")
+@Api(value = "/followings", description = "User's followings", position = 4)
 public class FollowingServices extends MicrobloggingService  implements ApiSecurity{
 
     @Inject
@@ -78,6 +78,7 @@ public class FollowingServices extends MicrobloggingService  implements ApiSecur
         Matcher matcher = handlePattern.matcher(handle);
         if (!matcher.matches()) throw new WebApplicationException("handle not valid", Response.Status.BAD_REQUEST);
 
+
         //build json repsonse
         JsonObjectBuilder builder = Json.createObjectBuilder();
         JsonArrayBuilder arrayBuilder = Json.createArrayBuilder();
@@ -93,10 +94,10 @@ public class FollowingServices extends MicrobloggingService  implements ApiSecur
 
 
     @Path("/{handle}/follow/{followeeHandle}")
-    @POST
+    @PUT
     @ApiOperation(value = "Follow", notes = "Follow a user identified by his handle. [Authenticated method]")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "OK"),
+            @ApiResponse(code = 202, message = "OK"),
             @ApiResponse(code = 400, message = "User handle or followee handle is not valid"),
             @ApiResponse(code = 403, message = "Authentication error, or followee already followed"),
             @ApiResponse(code = 404, message = "User handle doesn't exists"),
@@ -104,16 +105,14 @@ public class FollowingServices extends MicrobloggingService  implements ApiSecur
     )
     public Response follow(@ApiParam(name = "handle", value = "alphanumeric user handle starting by ':'", required = true) @PathParam("handle") String handle,
                            @ApiParam(name = "followeeHandle", value = "alphanumeric user handle starting by ':'", required = true) @PathParam("followeeHandle") String followeeHandle,
-                           @ApiParam(name = "api_token", value = "Api token [api_token.host_id]", defaultValue = "api_token.host_id", required = true) @HeaderParam("Authorization") String apiToken)
+                           @ApiParam(name = "Authorization", value = "Api token [Bearer api_token.host_id]", required = true) @HeaderParam("Authorization") String apiToken)
     {
         //very important to have values in getToken() and getHostID() methods
-        super.parseAPIToken(apiToken);
-
-        System.out.printf(apiToken);
+        this.parseAPIToken(apiToken);
 
         if (followeeHandle == null)
             throw new WebApplicationException("followeeHandle missing", Response.Status.BAD_REQUEST);
-        handle = authorize(handle, getToken(), getHostID());
+        handle = authorize(handle, this.getToken(), this.getHostID());
 
         followingSessionBean.follow(handle, followeeHandle);
         return Response.accepted().build();
@@ -124,7 +123,7 @@ public class FollowingServices extends MicrobloggingService  implements ApiSecur
     @DELETE
     @ApiOperation(value = "Unfollow", notes = "Unfollow a user identified by his handle. [Authenticated method]")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "OK"),
+            @ApiResponse(code = 202, message = "OK"),
             @ApiResponse(code = 400, message = "User handle or followee handle is not valid (':')"),
             @ApiResponse(code = 403, message = "Authentication error, or followee not followed"),
             @ApiResponse(code = 404, message = "User handle or followee handle doesn't exists"),
@@ -132,9 +131,7 @@ public class FollowingServices extends MicrobloggingService  implements ApiSecur
     )
     public Response unfollow(@ApiParam(name = "handle", value = "alphanumeric user handle starting by ':'", required = true) @PathParam("handle") String handle,
                              @ApiParam(name = "followeeHandle", value = "alphanumeric user handle starting by ':'", required = true) @PathParam("followeeHandle") String followeeHandle,
-                             @ApiParam(name = "api_token", value = "Api token [api_token.host_id]", defaultValue = "api_token.host_id", required = true) @HeaderParam("Authorization") String apiToken) {
-
-
+                             @ApiParam(name = "Authorization", value = "Api token [Bearer api_token.host_id]", required = true) @HeaderParam("Authorization") String apiToken) {
 
         //very important to have values in getToken() and getHostID() methods
         super.parseAPIToken(apiToken);
@@ -143,7 +140,7 @@ public class FollowingServices extends MicrobloggingService  implements ApiSecur
             throw new WebApplicationException("followeeHandle missing", Response.Status.BAD_REQUEST);
         handle = authorize(handle, getToken(), getHostID());
         followingSessionBean.unfollow(handle, followeeHandle);
-        return Response.noContent().build();
+        return Response.accepted().build();
     }
 
 

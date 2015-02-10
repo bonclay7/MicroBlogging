@@ -114,6 +114,7 @@ public class UserServices {
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "User created"),
             @ApiResponse(code = 400, message = "User handle or password not valid or missing"),
+            @ApiResponse(code = 406, message = "User handle already exists"),
             @ApiResponse(code = 500, message = "Something wrong in Server")}
     )
     public Response createUser(@ApiParam(required = true, name = "user") User u) {

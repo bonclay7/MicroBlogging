@@ -18,8 +18,8 @@ import java.util.regex.Pattern;
 /**
  * Created by grk on 17/01/15.
  */
-@Path("/authenticate")
-@Api(value = "/authenticate", description = "API login", position = 1)
+@Path("/authentication")
+@Api(value = "/authentication", description = "API login", position = 1)
 public class AuthenticationServices extends MicrobloggingService{
 
     @Inject
@@ -37,7 +37,8 @@ public class AuthenticationServices extends MicrobloggingService{
             @ApiResponse(code = 500, message = "Something wrong in Server")}
     )
     public JsonObject authenticate(@ApiParam(name = "handle", value = "alphanumeric user handle starting by ':'", required = true) @PathParam("handle") String handle,
-                                    @HeaderParam("password") String password, @HeaderParam("hostID") String hostID) {
+                                   @ApiParam(name = "password", value = "user's password", required = true) @HeaderParam("password") String password,
+                                   @ApiParam(name = "hostID", value = "Host name", required = true) @HeaderParam("hostID") String hostID) {
 
         Matcher matcher = handlePattern.matcher(handle);
         if (!matcher.matches()) throw new WebApplicationException("handle not valid", Response.Status.BAD_REQUEST);
@@ -53,4 +54,27 @@ public class AuthenticationServices extends MicrobloggingService{
 
         return builder.build();
     }
+
+
+    @Path("/{handle}")
+    @DELETE
+    @ApiOperation(value = "API token suppression", notes = "Releases apiToken. [Authenticated method]")
+    @ApiResponses(value = {
+            @ApiResponse(code = 202, message = "OK"),
+            @ApiResponse(code = 400, message = "User handle is not valid"),
+            @ApiResponse(code = 403, message = "User not connected"),
+            @ApiResponse(code = 404, message = "User handle doesn't exists"),
+            @ApiResponse(code = 500, message = "Something wrong in Server")}
+    )
+    public Response disconnect(@ApiParam(name = "handle", value = "alphanumeric user handle starting by ':'", required = true) @PathParam("handle") String handle,
+                               @ApiParam(name = "Authorization", value = "Api token [Bearer api_token.host_id]", required = true) @HeaderParam("Authorization") String apiToken) {
+        this.parseAPIToken(apiToken);
+
+        Matcher matcher = handlePattern.matcher(handle);
+        if (!matcher.matches()) throw new WebApplicationException("handle not valid", Response.Status.BAD_REQUEST);
+
+        authenticationSessionBean.disconnect(matcher.group(2), this.getToken(), this.getHostID());
+        return Response.accepted().build();
+    }
+
 }

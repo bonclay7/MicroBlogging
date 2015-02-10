@@ -27,7 +27,6 @@ public class Application extends javax.ws.rs.core.Application {
     private void addRestResourceClasses(Set<Class<?>> resources) {
         resources.add(fr.grk.ecp.rs.UserServices.class);
         resources.add(fr.grk.ecp.rs.AuthenticationServices.class);
-        resources.add(fr.grk.ecp.rs.DisconnectServices.class);
         resources.add(fr.grk.ecp.rs.FollowersServices.class);
         resources.add(fr.grk.ecp.rs.FollowingServices.class);
         resources.add(fr.grk.ecp.rs.TweetsServices.class);
