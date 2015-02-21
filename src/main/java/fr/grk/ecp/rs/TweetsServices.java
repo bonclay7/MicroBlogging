@@ -77,12 +77,12 @@ public class TweetsServices extends MicrobloggingService implements ApiSecurity 
     /**
      * @param handle
      * @param apiToken
-     * @param message
+     * @param tweet
      * @return
      */
     @Path("/{handle}")
     @POST
-    @Consumes("text/plain")
+    @Consumes("application/json")
     @ApiOperation(value = "Create tweet", notes = "Create a tweet")
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "OK"),
@@ -94,17 +94,17 @@ public class TweetsServices extends MicrobloggingService implements ApiSecurity 
     public Response createTweet(
             @ApiParam(name = "handle", value = "alphanumeric user handle starting by ':'", required = true) @PathParam("handle") String handle,
             @ApiParam(name = "Authorization", value = "Api token [Bearer api_token.host_id]", required = true) @HeaderParam("Authorization") String apiToken,
-            @ApiParam(name = "message", value = "tweet message content", required = true) String message) {
+            @ApiParam(name = "tweet", value = "tweet message content", required = true) Tweet tweet) {
 
         this.parseAPIToken(apiToken);
 
-        if (message == null)
-            throw new WebApplicationException("handle and/or message missing", Response.Status.BAD_REQUEST);
+        if (tweet == null)
+            throw new WebApplicationException("message missing", Response.Status.BAD_REQUEST);
 
         handle = authorize(handle, this.getToken(), this.getHostID());
 
         //proceed
-        tweetSessionBean.createTweet(handle, message);
+        tweetSessionBean.createTweet(handle, tweet.getMessage());
         String uri = context.getPath() + "s";
         return Response.created(URI.create(uri.replace(":", ""))).build();
     }

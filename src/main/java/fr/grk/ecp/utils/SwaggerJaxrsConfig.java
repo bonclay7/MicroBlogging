@@ -24,7 +24,7 @@ public class SwaggerJaxrsConfig extends HttpServlet {
             super.init(servletConfig);
             SwaggerConfig swaggerConfig = new SwaggerConfig();
             ConfigFactory.setConfig(swaggerConfig);
-            swaggerConfig.setBasePath("http://localhost:8080/MicroBlogging/api");
+            swaggerConfig.setBasePath("http://54.149.229.137:8080/MicroBlogging/api");
             swaggerConfig.setApiVersion("1.0.0");
             ScannerFactory.setScanner(new DefaultJaxrsScanner());
             ClassReaders.setReader(new DefaultJaxrsApiReader());

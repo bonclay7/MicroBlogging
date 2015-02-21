@@ -56,7 +56,7 @@ public class FollowingServices extends MicrobloggingService  implements ApiSecur
             arrayBuilder.add(user.toJson());
         }
         builder.add("server", Preferences.SERVER_NAME);
-        builder.add("handle", handle);
+        builder.add("handle", matcher.group(2));
         builder.add("users", arrayBuilder.build());
 
         return builder.build();
@@ -110,8 +110,23 @@ public class FollowingServices extends MicrobloggingService  implements ApiSecur
         //very important to have values in getToken() and getHostID() methods
         this.parseAPIToken(apiToken);
 
-        if (followeeHandle == null)
-            throw new WebApplicationException("followeeHandle missing", Response.Status.BAD_REQUEST);
+
+        //handle = handle.replaceAll(":", "");
+        followeeHandle = followeeHandle.replaceAll(":", "");
+
+
+//
+//        Matcher matcher = handlePattern.matcher(handle);
+//        if (!matcher.matches()) throw new WebApplicationException("handle not valid", Response.Status.BAD_REQUEST);
+//        handle = matcher.group(2);
+//
+//        Matcher matcher2  = handlePattern.matcher(followeeHandle);
+//       if (!matcher2.matches()) throw new WebApplicationException("followee not valid", Response.Status.BAD_REQUEST);
+//        followeeHandle = matcher2.group(2);
+
+
+        System.out.println(handle + " | " + followeeHandle);
+
         handle = authorize(handle, this.getToken(), this.getHostID());
 
         followingSessionBean.follow(handle, followeeHandle);
@@ -136,8 +151,9 @@ public class FollowingServices extends MicrobloggingService  implements ApiSecur
         //very important to have values in getToken() and getHostID() methods
         super.parseAPIToken(apiToken);
 
-        if (followeeHandle == null)
-            throw new WebApplicationException("followeeHandle missing", Response.Status.BAD_REQUEST);
+        followeeHandle = followeeHandle.replaceAll(":", "");
+
+        //if (followeeHandle == null) throw new WebApplicationException("followeeHandle missing", Response.Status.BAD_REQUEST);
         handle = authorize(handle, getToken(), getHostID());
         followingSessionBean.unfollow(handle, followeeHandle);
         return Response.accepted().build();
@@ -154,12 +170,13 @@ public class FollowingServices extends MicrobloggingService  implements ApiSecur
      */
     @Override
     public String authorize(String handle, String token, String hostID) throws WebApplicationException {
-        Matcher matcher = handlePattern.matcher(handle);
-        if (!matcher.matches()) throw new WebApplicationException("handle not valid", Response.Status.BAD_REQUEST);
+        //Matcher matcher = handlePattern.matcher(handle);
+        //if (!matcher.matches()) throw new WebApplicationException("handle not valid", Response.Status.BAD_REQUEST);
+        handle = handle.replaceAll(":", "");
         if (token == null) throw new WebApplicationException("token missing", Response.Status.FORBIDDEN);
         if (hostID == null) throw new WebApplicationException("host missing", Response.Status.FORBIDDEN);
 
-        handle = matcher.group(2);
+        //handle = matcher.group(2);
         //user authentication
         if (!authenticationSessionBean.isAuthenticated(handle, token, hostID))
             throw new WebApplicationException("authentication failed", Response.Status.FORBIDDEN);
