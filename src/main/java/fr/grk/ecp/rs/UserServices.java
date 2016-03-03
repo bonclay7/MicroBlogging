@@ -118,9 +118,12 @@ public class UserServices {
             @ApiResponse(code = 500, message = "Something wrong in Server")}
     )
     public Response createUser(@ApiParam(required = true, name = "user") User u) {
-        if (u.getHandle() == null) throw new WebApplicationException("handle is missing", Response.Status.BAD_REQUEST);
-        if (u.getPassword() == null)
+        if (u.getHandle() == null || u.getHandle().length() <= 3) throw new WebApplicationException("handle is missing", Response.Status.BAD_REQUEST);
+        if (u.getPassword() == null || u.getPassword().length() <= 5)
             throw new WebApplicationException("password is missing", Response.Status.BAD_REQUEST);
+        if (u.getEmail() == null && u.getEmail().length() <= 6) throw new WebApplicationException("email is missing", Response.Status.BAD_REQUEST);
+        if (u.getPicture() == null && u.getPicture().length() <= 10) throw new WebApplicationException("picture is missing", Response.Status.BAD_REQUEST);
+
         userSessionBean.createUser(u);
         String uri = context.getPath() + "/:" + u.getHandle();
         return Response.created(URI.create(uri)).build();
