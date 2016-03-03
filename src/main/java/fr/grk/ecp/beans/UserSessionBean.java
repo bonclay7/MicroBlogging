@@ -120,7 +120,6 @@ public class UserSessionBean {
         return us;
     }
 
-
     /**
      * Return the user list in a wrapper object
      *
